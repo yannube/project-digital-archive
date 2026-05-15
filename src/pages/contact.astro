@@ -1,0 +1,656 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact & Contributions"
+  description="Contribute photographs, stories, historical records, and Scouting materials to the Mahaldheeb Scoutun Digital Archive."
+>
+
+  <section class="page-hero contact-hero">
+    <div class="container">
+
+      <span class="section-label">
+        Contributions & Communication
+      </span>
+
+      <h1>
+        Contact<br />
+        the Archive
+      </h1>
+
+      <p>
+        Help preserve the history of Scouting in the Maldives by
+        contributing photographs, documents, stories, reports,
+        memorabilia, and historical records.
+      </p>
+
+    </div>
+  </section>
+
+  <section class="contact-intro">
+
+    <div class="container contact-intro__inner">
+
+      <div>
+
+        <span class="section-label">
+          National Preservation Effort
+        </span>
+
+        <h2>
+          Every photograph, story, and document matters.
+        </h2>
+
+      </div>
+
+      <p>
+        Mahaldheeb Scoutun is a growing digital archive dedicated
+        to preserving the history, heritage, and impact of Scouting
+        across the Maldives. Contributions from Scout groups,
+        veterans, leaders, and communities help strengthen this
+        collective national memory.
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="section contribution-section">
+
+    <div class="container">
+
+      <div class="section-header text-center fade-in">
+
+        <span class="section-label">
+          Archive Contributions
+        </span>
+
+        <h2>What can you contribute?</h2>
+
+        <div class="divider divider--center"></div>
+
+        <p>
+          The archive welcomes historical and contemporary materials
+          related to Scouting in the Maldives.
+        </p>
+
+      </div>
+
+      <div class="contribution-grid">
+
+        <article class="contribution-card fade-in">
+
+          <div class="contribution-icon">
+            📷
+          </div>
+
+          <h3>Photographs</h3>
+
+          <p>
+            Historical Scout photographs, camp images,
+            jamborees, ceremonies, patrol activities,
+            uniforms, and group photos.
+          </p>
+
+        </article>
+
+        <article class="contribution-card fade-in">
+
+          <div class="contribution-icon">
+            📄
+          </div>
+
+          <h3>Documents</h3>
+
+          <p>
+            Reports, certificates, magazines, newsletters,
+            handbooks, event programmes, and official
+            Scouting records.
+          </p>
+
+        </article>
+
+        <article class="contribution-card fade-in">
+
+          <div class="contribution-icon">
+            🎙️
+          </div>
+
+          <h3>Stories & Memories</h3>
+
+          <p>
+            Veteran experiences, oral histories,
+            interviews, island Scouting stories,
+            and personal recollections.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section archive-form-section">
+
+    <div class="container archive-form-layout">
+
+      <div class="archive-form-info fade-in">
+
+        <span class="section-label">
+          Submission Guidelines
+        </span>
+
+        <h2>
+          Before submitting materials
+        </h2>
+
+        <div class="divider"></div>
+
+        <ul class="guidelines-list">
+
+          <li>
+            Ensure historical information is as accurate as possible.
+          </li>
+
+          <li>
+            Include dates, locations, names, and event details whenever available.
+          </li>
+
+          <li>
+            Only submit content you own or have permission to share.
+          </li>
+
+          <li>
+            Higher quality scans and photographs are preferred.
+          </li>
+
+          <li>
+            Archive administrators may review and verify submissions before publishing.
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="archive-form-card fade-in">
+
+        <div class="form-card-header">
+
+          <span class="section-label">
+            Contribution Form
+          </span>
+
+          <h3>
+            Submit to the Archive
+          </h3>
+
+        </div>
+
+        <form class="archive-form">
+
+          <div class="form-group">
+            <label>Full Name</label>
+
+            <input
+              type="text"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+
+            <input
+              type="email"
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Island / Atoll</label>
+
+            <input
+              type="text"
+              placeholder="Example: Kolamaafushi, GA. Atoll"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Contribution Type</label>
+
+            <select>
+              <option>Photograph</option>
+              <option>Historical Document</option>
+              <option>Veteran Story</option>
+              <option>Project Report</option>
+              <option>Scout Group Information</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Title / Subject</label>
+
+            <input
+              type="text"
+              placeholder="Contribution title"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+
+            <textarea
+              rows="6"
+              placeholder="Describe the material, history, or story..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>File Upload (future integration)</label>
+
+            <div class="upload-placeholder">
+              <span>📁</span>
+              <p>
+                File upload system can be connected later
+                using Formspree, Uploadcare, Supabase,
+                or Sanity uploads.
+              </p>
+            </div>
+          </div>
+
+          <label class="checkbox-wrap">
+
+            <input type="checkbox" />
+
+            <span>
+              I confirm that I own or have permission
+              to share the submitted materials.
+            </span>
+
+          </label>
+
+          <button type="submit" class="btn btn-primary">
+            Submit Contribution
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="contact-cta-band">
+
+    <div class="container contact-cta-band__inner">
+
+      <div class="fade-in">
+
+        <h3>
+          Building a national Scouting memory together.
+        </h3>
+
+        <p>
+          Contributions from communities, Scout groups,
+          leaders, and veterans help preserve the
+          living history of Scouting in the Maldives.
+        </p>
+
+      </div>
+
+      <div class="fade-in">
+
+        <a href="/archive" class="btn btn-outline-light">
+          Explore the Archive
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <style>
+
+.contact-hero p {
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+.contact-intro {
+  background: var(--color-cream-light);
+
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+
+  padding-block: var(--space-16);
+}
+
+.contact-intro__inner {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: var(--space-12);
+}
+
+.contact-intro h2 {
+  color: var(--color-green);
+
+  max-width: 13ch;
+}
+
+.contact-intro p {
+  color: var(--color-ink-muted);
+
+  line-height: 1.9;
+  font-size: var(--text-md);
+
+  max-width: 65ch;
+}
+
+/* CONTRIBUTIONS */
+
+.contribution-section {
+  background: var(--color-cream);
+}
+
+.contribution-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: var(--space-8);
+
+  margin-top: var(--space-12);
+}
+
+.contribution-card {
+  background: var(--color-cream-light);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--border-radius-md);
+
+  padding: var(--space-8);
+
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.contribution-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: var(--shadow-lg);
+}
+
+.contribution-icon {
+  width: 68px;
+  height: 68px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(67,2,1,0.08);
+
+  font-size: 1.8rem;
+
+  margin-bottom: var(--space-5);
+}
+
+.contribution-card h3 {
+  color: var(--color-green);
+
+  margin-bottom: var(--space-4);
+}
+
+.contribution-card p {
+  color: var(--color-ink-muted);
+
+  line-height: 1.8;
+
+  font-size: var(--text-sm);
+}
+
+/* FORM */
+
+.archive-form-section {
+  background: var(--color-cream-light);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.archive-form-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+
+  gap: var(--space-12);
+
+  align-items: start;
+}
+
+.archive-form-info h2 {
+  color: var(--color-green);
+
+  margin-bottom: var(--space-5);
+
+  max-width: 12ch;
+}
+
+.guidelines-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-5);
+
+  margin-top: var(--space-8);
+
+  padding-left: 1.25rem;
+}
+
+.guidelines-list li {
+  color: var(--color-ink-muted);
+
+  line-height: 1.8;
+}
+
+.archive-form-card {
+  background: white;
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 32px;
+
+  padding: var(--space-10);
+
+  box-shadow: var(--shadow-md);
+}
+
+.form-card-header {
+  margin-bottom: var(--space-8);
+}
+
+.form-card-header h3 {
+  color: var(--color-green);
+
+  margin-top: var(--space-2);
+}
+
+.archive-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-6);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-3);
+}
+
+.form-group label {
+  color: var(--color-green);
+
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+
+  padding: 16px 18px;
+
+  border-radius: 16px;
+
+  border: 1px solid var(--color-border);
+
+  background: var(--color-cream-light);
+
+  font-family: inherit;
+
+  font-size: var(--text-sm);
+
+  color: var(--color-ink);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+
+  border-color: var(--color-red);
+}
+
+.upload-placeholder {
+  border: 2px dashed var(--color-border);
+
+  border-radius: 20px;
+
+  padding: var(--space-8);
+
+  text-align: center;
+
+  background: var(--color-cream);
+}
+
+.upload-placeholder span {
+  display: inline-block;
+
+  font-size: 2rem;
+
+  margin-bottom: var(--space-4);
+}
+
+.upload-placeholder p {
+  color: var(--color-ink-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.7;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: flex-start;
+
+  gap: var(--space-3);
+
+  color: var(--color-ink-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.7;
+}
+
+.checkbox-wrap input {
+  margin-top: 4px;
+}
+
+/* CTA */
+
+.contact-cta-band {
+  background: var(--color-green);
+
+  padding-block: var(--space-16);
+}
+
+.contact-cta-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-8);
+
+  flex-wrap: wrap;
+}
+
+.contact-cta-band h3 {
+  color: var(--color-cream);
+
+  font-size: var(--text-2xl);
+
+  margin-bottom: var(--space-3);
+}
+
+.contact-cta-band p {
+  color: var(--color-cream-dark);
+
+  max-width: 60ch;
+
+  line-height: 1.8;
+}
+
+.contact-cta-band .btn-outline-light {
+  color: var(--color-cream);
+
+  border-color: var(--color-cream-dark);
+}
+
+.contact-cta-band .btn-outline-light:hover {
+  background: var(--color-cream);
+
+  color: var(--color-green);
+}
+
+@media (max-width: 950px) {
+
+  .contact-intro__inner,
+  .archive-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .contribution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-cta-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+}
+
+  </style>
+
+</BaseLayout>

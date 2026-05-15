@@ -1,0 +1,829 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sanityClient } from "../lib/sanity";
+
+const query = `
+*[_type == "veteran"] | order(order asc) {
+  _id,
+  name,
+  initials,
+  role,
+  era,
+  island,
+  tagline,
+  excerpt,
+  tags,
+  slug,
+  "photoUrl": profilePhoto.asset->url,
+  "interviewVideoUrl": interviewVideo.asset->url
+}
+`;
+
+const data = await sanityClient.fetch(query);
+
+const veterans = data.length > 0
+  ? data
+  : [
+      {
+        _id: "1",
+        initials: "AR",
+        name: "Abdulla Rasheedh",
+        role: "Senior Scout Leader",
+        era: "1960s – 1980s",
+        island: "Malé",
+        tagline: "A Lifelong Pillar of Scouting in the Maldives",
+        excerpt:
+          "One of the earliest and most dedicated figures in Maldivian Scouting, Abdulla Rasheedh served the movement for decades — training leaders, organising camps, and keeping the Scout spirit alive through periods of challenge and change.",
+        tags: ["Leadership", "Training", "Founding Era"],
+        photoUrl: null,
+        interviewVideoUrl: null,
+      },
+      {
+        _id: "2",
+        initials: "AM",
+        name: "Ahmed Ali Manik",
+        role: "Scout Commissioner",
+        era: "1970s – 1990s",
+        island: "Malé",
+        tagline: "A Visionary Leader and Champion of Scouting Excellence",
+        excerpt:
+          "Ahmed Ali Manik brought vision and structure to the growing Scouting movement, championing excellence in youth development and helping guide the organisation toward formal national recognition.",
+        tags: ["Commissioner", "National Development", "Youth Programs"],
+        photoUrl: null,
+        interviewVideoUrl: null,
+      },
+    ];
+
+const interviewVeterans = veterans.filter((v: any) => v.interviewVideoUrl);
+---
+
+<BaseLayout
+  title="Veteran Stories"
+  description="Stories, memories, and contributions from the veteran Scouts who shaped Scouting in the Maldives."
+>
+  <section class="page-hero veterans-hero">
+    <div class="container">
+      <span class="section-label">Oral History Archive</span>
+
+      <h1>Veteran<br />Stories</h1>
+
+      <p>
+        Preserving the voices, memories, service, and leadership of the people
+        who helped shape Scouting in the Maldives.
+      </p>
+    </div>
+  </section>
+
+  <section class="legacy-intro">
+    <div class="container legacy-intro__inner">
+      <span class="section-label">A Legacy of Service</span>
+
+      <h2>
+        Their stories are not just memories.
+        They are the foundation of the movement.
+      </h2>
+
+      <p>
+        Through decades of voluntary service, veteran Scouts stood as mentors,
+        educators, role models, and guardians of Scouting values. Their
+        leadership helped shape the movement into what it is today.
+      </p>
+    </div>
+  </section>
+
+  <section class="section interview-carousel-section">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">An Inspiration to Us</span>
+
+        <h2>Veteran Interviews</h2>
+
+        <div class="divider divider--center"></div>
+
+        <p>
+          A video interview collection preserving the voices, memories,
+          and experiences of veteran Scouts.
+        </p>
+      </div>
+
+      {interviewVeterans.length > 0 ? (
+        <div class="interview-carousel fade-in">
+          {interviewVeterans.length > 1 && (
+            <button
+              class="carousel-btn carousel-btn--prev"
+              id="prevInterview"
+              aria-label="Previous interview"
+            >
+              ‹
+            </button>
+          )}
+
+          <div class="interview-track" id="interviewTrack">
+            {interviewVeterans.map((v: any) => (
+              <article class="interview-slide">
+                <div class="interview-video-wrap">
+                  <video
+                    class="interview-video"
+                    controls
+                    playsinline
+                    preload="metadata"
+                    poster={v.photoUrl || undefined}
+                  >
+                    <source src={v.interviewVideoUrl} type="video/mp4" />
+                    Your browser does not support video playback.
+                  </video>
+                </div>
+
+                <div class="interview-info">
+                  <span>{v.era}</span>
+                  <h3>{v.name}</h3>
+                  <p>{v.tagline}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {interviewVeterans.length > 1 && (
+            <button
+              class="carousel-btn carousel-btn--next"
+              id="nextInterview"
+              aria-label="Next interview"
+            >
+              ›
+            </button>
+          )}
+        </div>
+      ) : (
+        <div class="interview-empty fade-in">
+          <div class="interview-empty__icon">🎥</div>
+
+          <h3>Video Interviews Coming Soon</h3>
+
+          <p>
+            Uploaded veteran interview videos will appear here once they are
+            added to the Sanity veteran profile.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section veterans-collection">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Guardians of Our History</span>
+
+        <h2>Veteran Archive</h2>
+
+        <div class="divider divider--center"></div>
+
+        <p>
+          Every veteran profile represents decades of service,
+          mentorship, leadership, and commitment.
+        </p>
+      </div>
+
+      <div class="veterans-grid">
+        {veterans.map((v: any) => (
+          <a
+            href={`/veterans/${v.slug?.current || "#"}`}
+            class="veteran-card fade-in"
+          >
+            <div class="veteran-card__portrait">
+              {v.photoUrl ? (
+                <img src={v.photoUrl} alt={v.name} />
+              ) : (
+                <div class="veteran-card__initials">
+                  {v.initials}
+                </div>
+              )}
+            </div>
+
+            <div class="veteran-card__body">
+              <span>{v.era}</span>
+
+              <h3>{v.name}</h3>
+
+              <p class="veteran-role">{v.role}</p>
+
+              <p>{v.excerpt}</p>
+
+              {Array.isArray(v.tags) && (
+                <div class="veteran-tags">
+                  {v.tags.map((tag: string) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--sm oral-history">
+    <div class="container oral-history__inner">
+      <div class="fade-in">
+        <span class="section-label">Coming Soon</span>
+
+        <h2>Recorded Oral Histories</h2>
+
+        <p>
+          Future additions to this archive may include recorded interviews,
+          audio memories, video reflections, and first-hand accounts from
+          veteran Scouts and their families.
+        </p>
+      </div>
+
+      <div class="oral-card fade-in">
+        <span>🎙️</span>
+
+        <h3>Interview Archive</h3>
+
+        <p>
+          A dedicated section for preserving voices,
+          not just written records.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="veterans-cta-band">
+    <div class="container veterans-cta-band__inner">
+      <div class="fade-in">
+        <h3>
+          Know a veteran Scout whose story should be preserved?
+        </h3>
+
+        <p>
+          Help us preserve memories, photographs,
+          and stories before they are lost to time.
+        </p>
+      </div>
+
+      <div class="veterans-cta-band__actions fade-in">
+        <a href="/contact" class="btn btn-primary">
+          Submit a Story
+        </a>
+
+        <a href="/history" class="btn btn-outline-light">
+          View History
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const track = document.getElementById("interviewTrack");
+    const prev = document.getElementById("prevInterview");
+    const next = document.getElementById("nextInterview");
+
+    let currentSlide = 0;
+
+    function pauseAllVideos() {
+      const videos = document.querySelectorAll(".interview-video");
+
+      videos.forEach((video) => {
+        if (video instanceof HTMLVideoElement) {
+          video.pause();
+        }
+      });
+    }
+
+    function updateCarousel() {
+      if (!track) return;
+
+      const slides = track.querySelectorAll(".interview-slide");
+      const total = slides.length;
+
+      if (total === 0) return;
+
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    next?.addEventListener("click", () => {
+      if (!track) return;
+
+      const total = track.querySelectorAll(".interview-slide").length;
+
+      if (total === 0) return;
+
+      pauseAllVideos();
+
+      currentSlide = (currentSlide + 1) % total;
+
+      updateCarousel();
+    });
+
+    prev?.addEventListener("click", () => {
+      if (!track) return;
+
+      const total = track.querySelectorAll(".interview-slide").length;
+
+      if (total === 0) return;
+
+      pauseAllVideos();
+
+      currentSlide = (currentSlide - 1 + total) % total;
+
+      updateCarousel();
+    });
+  </script>
+
+  <style>
+    .veterans-hero p {
+      max-width: 60ch;
+      margin-inline: auto;
+    }
+
+    .legacy-intro {
+      background: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      padding-block: var(--space-16);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .legacy-intro__inner {
+      max-width: 850px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .legacy-intro h2 {
+      color: var(--color-green);
+      font-size: clamp(2.3rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin: var(--space-5) 0;
+    }
+
+    .legacy-intro p {
+      color: var(--color-ink-muted);
+      line-height: 1.9;
+      font-size: var(--text-md);
+    }
+
+    .interview-carousel-section {
+      background: var(--color-cream);
+    }
+
+    .interview-carousel {
+      position: relative;
+      max-width: 980px;
+      margin: var(--space-12) auto 0;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      background: var(--color-green);
+    }
+
+    .interview-track {
+      display: flex;
+      transition: transform 0.45s ease;
+    }
+
+    .interview-slide {
+      min-width: 100%;
+      background: var(--color-cream-light);
+    }
+
+    .interview-video-wrap {
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .interview-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      background: #000;
+      object-fit: contain;
+    }
+
+    .interview-carousel {
+  position: relative;
+  max-width: 900px;
+  margin: var(--space-12) auto 0;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-green);
+}
+
+.interview-track {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+
+.interview-slide {
+  min-width: 100%;
+  background: var(--color-green);
+}
+
+.interview-media,
+.interview-video-wrap {
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.interview-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+  background: #000;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+.interview-info {
+  position: static;
+  padding: 26px 34px 30px;
+  background: var(--color-green);
+  color: white;
+}
+
+.interview-info span {
+  color: var(--color-cream-dark);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interview-info h3 {
+  color: white;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin: var(--space-2) 0;
+}
+
+.interview-info p {
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+  line-height: 1.7;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 38%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+  font-size: 2.3rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.carousel-btn--prev {
+  left: 18px;
+}
+
+.carousel-btn--next {
+  right: 18px;
+}
+
+@media (max-width: 700px) {
+  .interview-carousel {
+    border-radius: 22px;
+  }
+
+  .interview-info {
+    padding: 22px;
+  }
+
+  .carousel-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.8rem;
+  }
+}
+
+    .interview-info span {
+      color: var(--color-cream-dark);
+      font-size: var(--text-xs);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .interview-info h3 {
+      color: white;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin: var(--space-2) 0;
+    }
+
+    .interview-info p {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 65ch;
+      line-height: 1.7;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 42%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 2.3rem;
+      line-height: 1;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition:
+        transform var(--transition-base),
+        background var(--transition-base);
+    }
+
+    .carousel-btn:hover {
+      transform: translateY(-50%) scale(1.06);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .carousel-btn--prev {
+      left: 18px;
+    }
+
+    .carousel-btn--next {
+      right: 18px;
+    }
+
+    .interview-empty {
+      max-width: 680px;
+      margin: var(--space-12) auto 0;
+      text-align: center;
+      padding: var(--space-10);
+      border-radius: 30px;
+      border: 1px solid var(--color-border);
+      background: var(--color-cream-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .interview-empty__icon {
+      font-size: 3rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .interview-empty h3 {
+      color: var(--color-green);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+    }
+
+    .interview-empty p {
+      color: var(--color-ink-muted);
+      line-height: 1.8;
+      max-width: 50ch;
+      margin-inline: auto;
+    }
+
+    .veterans-collection {
+      background: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .veterans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-8);
+      margin-top: var(--space-12);
+      max-width: 1000px;
+      margin-inline: auto;
+    }
+
+    .veteran-card {
+      min-height: 100%;
+      background: var(--color-cream);
+      border: 1px solid var(--color-border);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base);
+      text-decoration: none;
+    }
+
+    .veteran-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .veteran-card__portrait {
+      height: 320px;
+      background: var(--color-green);
+      overflow: hidden;
+    }
+
+    .veteran-card__portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .veteran-card__initials {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: var(--color-cream);
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 700;
+      background: var(--color-green);
+    }
+
+    .veteran-card__body {
+      padding: var(--space-8);
+    }
+
+    .veteran-card__body > span {
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .veteran-card h3 {
+      color: var(--color-green);
+      margin: var(--space-3) 0 var(--space-2);
+      font-size: var(--text-xl);
+      line-height: 1.2;
+    }
+
+    .veteran-role {
+      color: var(--color-red);
+      font-weight: 700;
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-4);
+    }
+
+    .veteran-card p {
+      color: var(--color-ink-muted);
+      line-height: 1.75;
+      font-size: var(--text-sm);
+      padding-right: var(--space-3);
+    }
+
+    .veteran-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-6);
+    }
+
+    .veteran-tags span {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(67, 2, 1, 0.08);
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 800;
+    }
+
+    .oral-history {
+      background: var(--color-cream);
+    }
+
+    .oral-history__inner {
+      display: grid;
+      grid-template-columns: 1fr 0.7fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+
+    .oral-history h2 {
+      color: var(--color-green);
+      margin: var(--space-4) 0;
+    }
+
+    .oral-history p {
+      color: var(--color-ink-muted);
+      line-height: 1.85;
+      max-width: 65ch;
+    }
+
+    .oral-card {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 30px;
+      padding: var(--space-8);
+      box-shadow: var(--shadow-md);
+    }
+
+    .oral-card span {
+      font-size: 2.5rem;
+    }
+
+    .oral-card h3 {
+      color: var(--color-green);
+      margin: var(--space-4) 0 var(--space-3);
+    }
+
+    .veterans-cta-band {
+      background: var(--color-green);
+      padding-block: var(--space-16);
+    }
+
+    .veterans-cta-band__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .veterans-cta-band h3 {
+      color: var(--color-cream);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+      max-width: 720px;
+    }
+
+    .veterans-cta-band p {
+      color: var(--color-cream-dark);
+      max-width: 60ch;
+      line-height: 1.7;
+    }
+
+    .veterans-cta-band__actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .btn-outline-light {
+      color: var(--color-cream);
+      border: 2px solid var(--color-cream-dark);
+      background: transparent;
+    }
+
+    .btn-outline-light:hover {
+      background: var(--color-cream);
+      color: var(--color-green);
+    }
+
+    @media (max-width: 1000px) {
+      .oral-history__inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .interview-carousel {
+        border-radius: 24px;
+      }
+
+      .interview-info {
+        padding: var(--space-6);
+      }
+
+      .carousel-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 2rem;
+      }
+
+      .carousel-btn--prev {
+        left: 10px;
+      }
+
+      .carousel-btn--next {
+        right: 10px;
+      }
+
+      .veterans-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .veteran-card__portrait {
+        height: 280px;
+      }
+
+      .veterans-cta-band__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .veterans-cta-band__actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</BaseLayout>

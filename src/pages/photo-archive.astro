@@ -1,0 +1,661 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sanityClient } from "../lib/sanity";
+
+const categories = [
+  {
+    label: "Camps & Expeditions",
+    icon: "⛺",
+    description:
+      "Outdoor camps, expeditions, survival activities, and field adventures.",
+  },
+  {
+    label: "Events & Ceremonies",
+    icon: "🏅",
+    description:
+      "Investitures, ceremonies, gatherings, inaugurations, and official events.",
+  },
+  {
+    label: "Jamborees",
+    icon: "🏕",
+    description:
+      "National and international jamborees and large-scale Scout gatherings.",
+  },
+  {
+    label: "Patrol Activities",
+    icon: "🧭",
+    description:
+      "Teamwork, patrol systems, competitions, and everyday Scouting life.",
+  },
+  {
+    label: "Badgework & Skills",
+    icon: "⚜",
+    description:
+      "Training sessions, pioneering, achievements, and Scout skill development.",
+  },
+  {
+    label: "Historical",
+    icon: "📜",
+    description:
+      "Rare historical photographs and preserved memories from earlier generations.",
+  },
+];
+
+const photoQuery = `
+*[_type == "archiveItem" && category == "photo"] | order(year desc) {
+  title,
+  slug,
+  year,
+  description,
+  location,
+  contributor,
+  tags,
+  "imageUrl": image.asset->url
+}
+`;
+
+const photos = await sanityClient.fetch(photoQuery);
+---
+
+<BaseLayout
+  title="Photo Archive"
+  description="A visual archive preserving the photographic history of Maldivian Scouting."
+>
+  <section class="page-hero photo-hero">
+    <div class="container">
+      <span class="section-label">Visual Archive</span>
+
+      <h1>Photo Archive</h1>
+
+      <p>
+        A growing visual collection documenting camps, ceremonies, patrol life,
+        Scout groups, Rover crews, and historical moments across the Maldives.
+      </p>
+    </div>
+  </section>
+
+  <section class="section categories-section">
+    <div class="container">
+
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Browse by Category</span>
+
+        <h2>Album Categories</h2>
+
+        <div class="divider divider--center"></div>
+
+        <p>
+          Photographs are organised into curated archive collections.
+        </p>
+      </div>
+
+      <div class="categories-grid">
+        {categories.map((cat) => (
+          <article class="category-card fade-in">
+
+            <div class="category-icon">
+              {cat.icon}
+            </div>
+
+            <div class="category-content">
+              <h3>{cat.label}</h3>
+              <p>{cat.description}</p>
+            </div>
+
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section gallery-section">
+    <div class="container">
+
+      <div class="section-header text-center fade-in">
+        <span class="section-label">The Collection</span>
+
+        <h2>Archive Photographs</h2>
+
+        <div class="divider divider--center"></div>
+
+        <p>
+          Click any image to view it in fullscreen archive mode.
+        </p>
+      </div>
+
+      {photos.length > 0 ? (
+        <div class="gallery-grid">
+
+          {photos.map((photo: any, i: number) => (
+            <button
+              type="button"
+              class={`gallery-item gallery-item--${i % 3 === 0 ? "wide" : "normal"} fade-in`}
+              data-image={photo.imageUrl || ""}
+              data-title={photo.title || ""}
+              data-description={photo.description || ""}
+              data-year={photo.year || ""}
+              data-location={photo.location || ""}
+            >
+
+              {photo.imageUrl ? (
+                <img
+                  src={photo.imageUrl}
+                  alt={photo.title}
+                  class="gallery-image"
+                />
+              ) : (
+                <div class="gallery-placeholder">
+                  <span>{photo.year}</span>
+                </div>
+              )}
+
+              <div class="gallery-overlay">
+                <span>
+                  {photo.location || "Photo Archive"}
+                </span>
+
+                <h4>{photo.title}</h4>
+              </div>
+
+            </button>
+          ))}
+
+        </div>
+      ) : (
+        <div class="empty-state fade-in">
+          <h3>No photographs added yet</h3>
+
+          <p>
+            Add archive items in Sanity with category set to
+            <strong> photo </strong>.
+          </p>
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <div class="lightbox hidden" id="lightbox">
+
+    <button class="lightbox-close" id="lightboxClose">
+      ×
+    </button>
+
+    <div class="lightbox-content">
+
+      <img src="" alt="" id="lightboxImage" />
+
+      <div class="lightbox-meta">
+
+        <span id="lightboxInfo"></span>
+
+        <h3 id="lightboxTitle"></h3>
+
+        <p id="lightboxDescription"></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const galleryItems =
+      document.querySelectorAll<HTMLButtonElement>(".gallery-item");
+
+    const lightbox =
+      document.getElementById("lightbox");
+
+    const lightboxImage =
+      document.getElementById("lightboxImage") as HTMLImageElement | null;
+
+    const lightboxTitle =
+      document.getElementById("lightboxTitle");
+
+    const lightboxDescription =
+      document.getElementById("lightboxDescription");
+
+    const lightboxInfo =
+      document.getElementById("lightboxInfo");
+
+    const lightboxClose =
+      document.getElementById("lightboxClose");
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", () => {
+
+        if (lightboxImage) {
+          lightboxImage.src =
+            item.dataset.image || "";
+
+          lightboxImage.alt =
+            item.dataset.title || "";
+        }
+
+        if (lightboxTitle)
+          lightboxTitle.textContent =
+            item.dataset.title || "";
+
+        if (lightboxDescription)
+          lightboxDescription.textContent =
+            item.dataset.description || "";
+
+        if (lightboxInfo)
+          lightboxInfo.textContent =
+            [item.dataset.year, item.dataset.location]
+              .filter(Boolean)
+              .join(" • ");
+
+        lightbox?.classList.remove("hidden");
+
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    function closeLightbox() {
+      lightbox?.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    lightboxClose?.addEventListener("click", closeLightbox);
+
+    lightbox?.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeLightbox();
+      }
+    });
+  </script>
+
+  <style>
+    .photo-hero p {
+      max-width: 62ch;
+      margin-inline: auto;
+    }
+
+    .categories-section {
+      background: var(--color-cream);
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-12);
+    }
+
+    .category-card {
+      position: relative;
+
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-6);
+
+      padding: var(--space-8);
+
+      background: var(--color-cream-light);
+
+      border: 1px solid var(--color-border);
+
+      border-radius: 28px;
+
+      overflow: hidden;
+
+      transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base),
+        border-color var(--transition-base);
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .category-card:hover {
+      transform: translateY(-6px);
+
+      box-shadow: var(--shadow-lg);
+
+      border-color: rgba(67,2,1,0.2);
+    }
+
+    .category-card::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(67,2,1,0.03),
+          transparent 40%
+        );
+
+      pointer-events: none;
+    }
+
+    .category-icon {
+      width: 74px;
+      height: 74px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(67,2,1,0.08),
+          rgba(0,0,0,0.02)
+        );
+
+      font-size: 2rem;
+    }
+
+    .category-content {
+      min-width: 0;
+    }
+
+    .category-content h3 {
+      font-size: clamp(1.6rem, 2vw, 2.3rem);
+
+      color: var(--color-green);
+
+      margin-bottom: var(--space-3);
+
+      line-height: 1.1;
+    }
+
+    .category-content p {
+      color: var(--color-ink-muted);
+
+      line-height: 1.8;
+
+      font-size: var(--text-base);
+    }
+
+    .gallery-section {
+      background: var(--color-cream-light);
+
+      border-top: 1px solid var(--color-border);
+    }
+
+    .gallery-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      grid-auto-rows: 320px;
+
+      gap: var(--space-5);
+
+      margin-top: var(--space-12);
+    }
+
+    .gallery-item {
+      position: relative;
+
+      border: none;
+
+      padding: 0;
+
+      background: transparent;
+
+      border-radius: 28px;
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      text-align: left;
+
+      box-shadow: var(--shadow-md);
+
+      transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-8px);
+
+      box-shadow: var(--shadow-lg);
+    }
+
+    .gallery-item--wide {
+      grid-column: span 2;
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      display: block;
+
+      transition: transform 0.7s ease;
+    }
+
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.06);
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(67,2,1,0.06),
+          rgba(0,0,0,0.03)
+        );
+
+      color: var(--color-red);
+
+      font-size: 2rem;
+
+      font-family: var(--font-serif);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+
+      inset-inline: 0;
+      bottom: 0;
+
+      padding: var(--space-6);
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,0.84),
+          transparent
+        );
+
+      color: white;
+    }
+
+    .gallery-overlay span {
+      display: inline-block;
+
+      margin-bottom: var(--space-2);
+
+      font-size: var(--text-xs);
+
+      font-weight: 800;
+
+      letter-spacing: 0.08em;
+
+      text-transform: uppercase;
+
+      color: rgba(255,255,255,0.72);
+    }
+
+    .gallery-overlay h4 {
+      color: white;
+
+      line-height: 1.3;
+    }
+
+    .empty-state {
+      margin-top: var(--space-10);
+
+      padding: var(--space-10);
+
+      border-radius: 28px;
+
+      background: var(--color-cream);
+
+      border: 1px dashed var(--color-border);
+
+      text-align: center;
+    }
+
+    .empty-state h3 {
+      color: var(--color-green);
+
+      margin-bottom: var(--space-3);
+    }
+
+    .lightbox {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9999;
+
+      background: rgba(0,0,0,0.92);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: var(--space-8);
+
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.hidden {
+      display: none;
+    }
+
+    .lightbox-content {
+      width: min(1200px, 100%);
+
+      display: grid;
+
+      gap: var(--space-6);
+    }
+
+    .lightbox-content img {
+      width: 100%;
+
+      max-height: 78vh;
+
+      object-fit: contain;
+
+      border-radius: 28px;
+
+      background: #111;
+    }
+
+    .lightbox-meta {
+      color: white;
+    }
+
+    .lightbox-meta span {
+      display: inline-block;
+
+      margin-bottom: var(--space-2);
+
+      color: rgba(255,255,255,0.7);
+
+      font-size: var(--text-xs);
+
+      letter-spacing: 0.08em;
+
+      text-transform: uppercase;
+
+      font-weight: 800;
+    }
+
+    .lightbox-meta h3 {
+      color: white;
+
+      margin-bottom: var(--space-3);
+    }
+
+    .lightbox-meta p {
+      color: rgba(255,255,255,0.75);
+
+      line-height: 1.8;
+    }
+
+    .lightbox-close {
+      position: absolute;
+
+      top: 24px;
+      right: 24px;
+
+      width: 58px;
+      height: 58px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: rgba(255,255,255,0.12);
+
+      color: white;
+
+      font-size: 2rem;
+
+      cursor: pointer;
+
+      backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 1100px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-item--wide {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .categories-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        padding: var(--space-6);
+      }
+
+      .gallery-grid {
+        grid-auto-rows: 240px;
+      }
+
+      .lightbox {
+        padding: var(--space-4);
+      }
+    }
+  </style>
+</BaseLayout>

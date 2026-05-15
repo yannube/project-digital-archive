@@ -1,0 +1,679 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const team = [
+  {
+    initials: "HH",
+    name: "Haisham Husham",
+    role: "Project Manager",
+    description: "Leads the overall direction, planning, and execution of the Project Digital Archive initiative.",
+  },
+  {
+    initials: "SA",
+    name: "Suraij Abdulla",
+    role: "Partnerships & Stakeholder Relations Officer",
+    description: "Manages relationships with partner organisations, sponsors, and key stakeholders supporting the project.",
+  },
+  {
+    initials: "AR",
+    name: "Ahmed Rishaan",
+    role: "Operations & Logistics Officer",
+    description: "Oversees the operational coordination, logistics, and day-to-day management of project activities.",
+  },
+  {
+    initials: "FS",
+    name: "Fathmath Shamha",
+    role: "Content & Documentation Lead",
+    description: "Responsible for researching, writing, and maintaining the accuracy of all archive content and documentation.",
+  },
+  {
+    initials: "DJ",
+    name: "Dhaoodh Jauhary",
+    role: "Creative & Media Lead",
+    description: "Directs the visual identity, media production, and creative output of the project including this website.",
+  },
+  {
+    initials: "AZ",
+    name: "Ahmed Zeeshan",
+    role: "Communications & Public Engagement Officer",
+    description: "Manages public outreach, social media presence, and community engagement for the archive initiative.",
+  },
+  {
+    initials: "FS",
+    name: "Fathmath Saara",
+    role: "Monitoring & Reporting Officer",
+    description: "Tracks project milestones, evaluates progress, and prepares reports for the BP Award submission.",
+  },
+  {
+    initials: "YN",
+    name: "Yanaal Naseem",
+    role: "Website & Digital Archive Developer",
+    description: "Developer and designer behind the Mahaldheeb Scoutun Digital Archive platform.",
+  },
+];
+
+const objectives = [
+  "Document and preserve the history of Scouting in the Maldives in a structured digital format.",
+  "Collect and archive the personal stories and oral histories of veteran scouts.",
+  "Build a publicly accessible, long-term heritage platform for Maldivian Scouting.",
+  "Support the Scout Association of Maldives in maintaining an institutional memory.",
+  "Demonstrate the impact and reach of Scouting across the islands of the Maldives.",
+  "Submit a complete, professional archive as part of the Baden-Powell Award project.",
+];
+---
+
+<BaseLayout
+  title="About Us"
+  description="Learn about Mahaldheeb Scoutun, the team behind Project Digital Archive, and the mission to preserve the heritage of Maldivian Scouting."
+>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════════ -->
+  <section class="page-hero about-hero">
+    <div class="container">
+      <span class="section-label">Who We Are</span>
+      <h1>About<br/>Mahaldheeb Scoutun</h1>
+      <p>
+        A BP Award initiative by the 14th Malé Rover Crew — built to preserve,
+        present, and protect the heritage of Scouting in the Maldives.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT THE INITIATIVE
+  ═══════════════════════════════════════════ -->
+  <section class="section about-initiative">
+    <div class="container about-initiative__inner">
+
+      <div class="about-initiative__text fade-in">
+        <span class="section-label">The Initiative</span>
+        <h2>What is Mahaldheeb Scoutun?</h2>
+        <div class="divider"></div>
+        <p>
+          <strong>Mahaldheeb Scoutun</strong> — meaning <em>"Scouting of the Maldives"</em>
+          in Dhivehi — is a Project Digital Archive initiative managed by the
+          <strong>14th Malé Rover Crew</strong>, Scout Association of Maldives.
+        </p>
+        <p style="margin-top: 1rem;">
+          Our mission is to build a permanent, professionally maintained digital museum
+          that documents the full history of Scouting in the Maldives — from its roots
+          at Majeediyya School in 1961, through decades of growth, to the movement as
+          it exists today.
+        </p>
+        <p style="margin-top: 1rem;">
+          This platform serves as both a public heritage resource and a submission
+          toward the <strong>Baden-Powell Award</strong> — the highest honour in
+          Rover Scouting, requiring a significant community project of lasting impact.
+        </p>
+      </div>
+
+      <div class="about-initiative__card fade-in">
+        <div class="initiative-card">
+          <div class="initiative-card__emblem">⚜</div>
+          <h3>Project Digital Archive</h3>
+          <div class="initiative-card__divider"></div>
+          <div class="initiative-card__detail">
+            <span class="initiative-card__label">Managed by</span>
+            <span class="initiative-card__value">14th Malé Rover Crew</span>
+          </div>
+          <div class="initiative-card__detail">
+            <span class="initiative-card__label">Organisation</span>
+            <span class="initiative-card__value">Scout Association of Maldives</span>
+          </div>
+          <div class="initiative-card__detail">
+            <span class="initiative-card__label">Award</span>
+            <span class="initiative-card__value">Baden-Powell Award 2025</span>
+          </div>
+          <div class="initiative-card__detail">
+            <span class="initiative-card__label">Founded</span>
+            <span class="initiative-card__value">2025</span>
+          </div>
+          <div class="initiative-card__tags">
+            <span class="itag">Heritage Archive</span>
+            <span class="itag">BP Award</span>
+            <span class="itag">Public Resource</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VISION & MISSION
+  ═══════════════════════════════════════════ -->
+  <section class="section--sm vision-mission">
+    <div class="container">
+      <div class="vm-grid">
+
+        <div class="vm-card vm-card--vision fade-in">
+          <div class="vm-card__icon">🔭</div>
+          <span class="vm-card__label">Our Vision</span>
+          <h3>A Living Archive for All Maldivians</h3>
+          <p>
+            A world where the rich heritage of Scouting in the Maldives is fully
+            documented, freely accessible, and celebrated as a cornerstone of the
+            nation's youth development history.
+          </p>
+        </div>
+
+        <div class="vm-card vm-card--mission fade-in">
+          <div class="vm-card__icon">🎯</div>
+          <span class="vm-card__label">Our Mission</span>
+          <h3>Preserve, Present, and Protect</h3>
+          <p>
+            To document and digitally preserve the history, stories, and milestones
+            of Scouting in the Maldives — making this heritage permanently available
+            to scouts, researchers, and the general public.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       OBJECTIVES
+  ═══════════════════════════════════════════ -->
+  <section class="section--sm objectives-section">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Purpose</span>
+        <h2>Project Objectives</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="objectives-list">
+        {objectives.map((obj, i) => (
+          <div class="objective-item fade-in">
+            <span class="objective-item__num">0{i + 1}</span>
+            <p>{obj}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TEAM
+  ═══════════════════════════════════════════ -->
+  <section class="section team-section">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">The People</span>
+        <h2>Meet the Team</h2>
+        <div class="divider divider--center"></div>
+        <p>The 14th Malé Rover Crew members who built and maintain this archive.</p>
+      </div>
+
+      <div class="team-grid">
+        {team.map((member) => (
+          <div class="team-card fade-in">
+            <div class="team-card__avatar">{member.initials}</div>
+            <h4>{member.name}</h4>
+            <span class="team-card__role">{member.role}</span>
+            <p>{member.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       14TH MALE ROVER CREW BAND
+  ═══════════════════════════════════════════ -->
+  <section class="crew-band">
+    <div class="container crew-band__inner">
+      <div class="crew-band__left fade-in">
+        <span class="section-label" style="color: var(--color-rose-light);">The Organisation</span>
+        <h3>14th Malé Rover Crew</h3>
+        <p>
+          The 14th Malé Rover Crew is a Rover Scout unit operating under the
+          Scout Association of Maldives. Rover Scouts are young adults aged 18–25
+          who serve their communities through meaningful, impactful projects —
+          of which this digital archive is one.
+        </p>
+      </div>
+      <div class="crew-band__emblem fade-in">
+        <div class="crew-emblem">
+          <span class="crew-emblem__icon">⚜</span>
+          <span class="crew-emblem__name">14th Malé<br/>Rover Crew</span>
+          <span class="crew-emblem__org">Scout Association of Maldives</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CTA BAND
+  ═══════════════════════════════════════════ -->
+  <section class="about-cta-band">
+    <div class="container about-cta-band__inner">
+      <div class="fade-in">
+        <h3>Want to contribute to this archive?</h3>
+        <p>Submit photographs, documents, or stories to help us grow this resource.</p>
+      </div>
+      <a href="/contact" class="btn btn-primary fade-in">Contact Us</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* ═══════════════════════════════════════════
+   ABOUT INITIATIVE
+═══════════════════════════════════════════ */
+.about-initiative {
+  background-color: var(--color-cream);
+}
+
+.about-initiative__inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.about-initiative__text h2 {
+  margin-bottom: var(--space-2);
+}
+
+.about-initiative__text p {
+  font-size: var(--text-md);
+  line-height: 1.8;
+  max-width: 58ch;
+}
+
+.about-initiative__text strong {
+  color: var(--color-red);
+  font-weight: 600;
+}
+
+.about-initiative__text em {
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+/* Initiative Card */
+.initiative-card {
+  background-color: var(--color-green);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: sticky;
+  top: 100px;
+}
+
+.initiative-card__emblem {
+  font-size: 2.5rem;
+  color: var(--color-rose-light);
+  line-height: 1;
+}
+
+.initiative-card h3 {
+  font-size: var(--text-xl);
+  color: var(--color-cream);
+  line-height: 1.3;
+}
+
+.initiative-card__divider {
+  height: 1px;
+  background-color: var(--color-green-mid);
+}
+
+.initiative-card__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.initiative-card__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-green-light);
+}
+
+.initiative-card__value {
+  font-size: var(--text-sm);
+  color: var(--color-cream);
+  font-weight: 500;
+}
+
+.initiative-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.itag {
+  padding: var(--space-1) var(--space-3);
+  background-color: rgba(236, 226, 209, 0.08);
+  border: 1px solid rgba(236, 226, 209, 0.15);
+  border-radius: 100px;
+  font-size: var(--text-xs);
+  color: var(--color-cream-dark);
+  letter-spacing: 0.04em;
+}
+
+/* ═══════════════════════════════════════════
+   VISION & MISSION
+═══════════════════════════════════════════ */
+.vision-mission {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.vm-card {
+  padding: var(--space-10) var(--space-8);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border: 1px solid var(--color-border);
+}
+
+.vm-card--vision {
+  background-color: var(--color-cream);
+  border-top: 3px solid var(--color-red);
+}
+
+.vm-card--mission {
+  background-color: var(--color-cream);
+  border-top: 3px solid var(--color-green);
+}
+
+.vm-card__icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.vm-card__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.vm-card h3 {
+  font-size: var(--text-xl);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.vm-card p {
+  font-size: var(--text-md);
+  color: var(--color-ink-muted);
+  line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════
+   OBJECTIVES
+═══════════════════════════════════════════ */
+.objectives-section {
+  background-color: var(--color-cream);
+}
+
+.objectives-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-4);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.objective-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-cream-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.objective-item:hover {
+  border-color: var(--color-red);
+  transform: translateX(4px);
+}
+
+.objective-item__num {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-red);
+  opacity: 0.4;
+  flex-shrink: 0;
+  line-height: 1;
+  min-width: 2.5rem;
+}
+
+.objective-item p {
+  font-size: var(--text-md);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  max-width: none;
+}
+
+/* ═══════════════════════════════════════════
+   TEAM
+═══════════════════════════════════════════ */
+.team-section {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.team-card {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  text-align: center;
+  align-items: center;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.team-card__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  color: var(--color-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.team-card h4 {
+  font-size: var(--text-md);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.team-card__role {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  line-height: 1.4;
+}
+
+.team-card p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   CREW BAND
+═══════════════════════════════════════════ */
+.crew-band {
+  background-color: var(--color-green);
+  padding-block: var(--space-16);
+}
+
+.crew-band__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.crew-band__left h3 {
+  font-size: var(--text-2xl);
+  color: var(--color-cream);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.crew-band__left p {
+  font-size: var(--text-md);
+  color: var(--color-cream-dark);
+  max-width: 55ch;
+  line-height: 1.8;
+}
+
+.crew-emblem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-8);
+  border: 1px solid var(--color-green-mid);
+  border-radius: var(--border-radius-md);
+  min-width: 200px;
+}
+
+.crew-emblem__icon {
+  font-size: 3rem;
+  color: var(--color-rose-light);
+  line-height: 1;
+}
+
+.crew-emblem__name {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-cream);
+  line-height: 1.3;
+}
+
+.crew-emblem__org {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-green-light);
+}
+
+/* ═══════════════════════════════════════════
+   CTA BAND
+═══════════════════════════════════════════ */
+.about-cta-band {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-16);
+}
+
+.about-cta-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.about-cta-band__inner h3 {
+  font-size: var(--text-2xl);
+  color: var(--color-green);
+  margin-bottom: var(--space-2);
+}
+
+.about-cta-band__inner p {
+  font-size: var(--text-md);
+  color: var(--color-ink-muted);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .about-initiative__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .initiative-card {
+    position: static;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .crew-band__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .crew-emblem {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .vm-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-cta-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

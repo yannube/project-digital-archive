@@ -1,0 +1,729 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sanityClient } from "../lib/sanity";
+
+const milestones = [
+  {
+    year: "1950",
+    displayYear: "1950s",
+    title: "Photographs Before Records",
+    tag: "Early Traces",
+    isMajor: false,
+    description:
+      "Photographs from the 1950s show boys in Scout uniforms in the Maldives, suggesting an early awareness of the Scouting movement. However, no confirmed organised records exist from this period.",
+  },
+  {
+    year: "1961",
+    displayYear: "1961",
+    title: "Scouting Begins at Majeediyya School",
+    tag: "Foundation",
+    isMajor: true,
+    description:
+      "The confirmed founding of Scouting in the Maldives took place at Majeediyya School in Malé under Principal Mr. J.V. Hill. Mrs. P. George formed the first Cub Scout Pack with eighteen children, and the Junior Scout section followed in October 1961.",
+  },
+  {
+    year: "1963",
+    displayYear: "1963",
+    title: "First Malé Scout Group Registered",
+    tag: "Recognition",
+    isMajor: true,
+    description:
+      "The Majeediyya School Scout Group was registered with the Imperial Scout Headquarters in London as the First Malé Scout Group, formally connecting Maldivian Scouting with the wider Scout movement.",
+  },
+  {
+    year: "1964",
+    displayYear: "1964",
+    title: "Sea Scouting Introduced",
+    tag: "Expansion",
+    isMajor: false,
+    description:
+      "Sea Scouting was introduced in 1964, connecting the movement to the Maldives’ maritime identity and island heritage.",
+  },
+  {
+    year: "1965",
+    displayYear: "1965",
+    title: "First Scout Camp",
+    tag: "Camp",
+    isMajor: true,
+    description:
+      "The first recorded Scout camp in the Maldives was held at Hulhulé from 28 April to 1 May 1965, marking a major practical milestone for Scouting in the country.",
+  },
+  {
+    year: "1984",
+    displayYear: "1984",
+    title: "Maldives Boy Scouts Association Registered",
+    tag: "Official Formation",
+    isMajor: true,
+    description:
+      "On 28 January 1984, the Maldives Boy Scouts Association was officially registered, giving Scouting in the Maldives formal national structure and legal recognition.",
+  },
+  {
+    year: "1986",
+    displayYear: "1986",
+    title: "First National Scout Jamboree",
+    tag: "Landmark Event",
+    isMajor: true,
+    description:
+      "The first National Scout Jamboree was held from 20 to 23 September 1986 at Kuda Bandos, bringing together Scouts, Cub Scouts, Brownies, and Girl Guides from across the country.",
+  },
+];
+
+const archiveQuery = `
+*[_type == "archiveItem" && category == "history"] | order(year asc) {
+  title,
+  slug,
+  year,
+  description,
+  location,
+  contributor,
+  "imageUrl": image.asset->url
+}
+`;
+
+const archiveRecords = await sanityClient.fetch(archiveQuery);
+
+const getRecordsForYear = (year: string) => {
+  return archiveRecords.filter((record: any) => String(record.year) === String(year));
+};
+---
+
+<BaseLayout
+  title="Scouting History of Maldives"
+  description="The history of Scouting in the Maldives, connected with archive records and historical milestones."
+>
+  <section class="page-hero history-hero">
+    <div class="container">
+      <span class="section-label">Heritage Archive</span>
+      <h1>Scouting History<br />of Maldives</h1>
+      <p>
+        From a single school group in 1961 to a nationwide movement — the story
+        of how Scouting took root and grew across the islands of the Maldives.
+      </p>
+    </div>
+  </section>
+
+  <section class="section--sm history-intro">
+    <div class="container history-intro__inner">
+      <div class="history-intro__pull fade-in">
+        <span class="pull-year">1961</span>
+        <span class="pull-label">Year Scouting began<br />in the Maldives</span>
+      </div>
+
+      <div class="history-intro__text fade-in">
+        <span class="section-label">Overview</span>
+        <h2>Roots of Maldivian Scouting</h2>
+        <div class="divider"></div>
+
+        <p>
+          The history of Scouting in the Maldives is one of dedication, national
+          pride, service, and youth leadership. While photographs from the 1950s
+          show boys in Scout uniforms, confirmed organised records begin in
+          <strong>1961</strong>, when Scouting was formally established at
+          Majeediyya School.
+        </p>
+
+        <p>
+          From those early school-based beginnings, the movement expanded,
+          declined, revived, and eventually developed into a structured national
+          organisation. Mahaldheeb Scoutun exists to preserve that journey through
+          stories, images, documents, and verified archive records.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section history-timeline">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Milestones</span>
+        <h2>A Timeline of Scouting in Maldives</h2>
+        <div class="divider divider--center"></div>
+        <p>
+          Key events that shaped the movement from its founding to its growth as
+          a national institution.
+        </p>
+      </div>
+
+      <div class="timeline-full">
+        {milestones.map((m: any) => {
+          const records = getRecordsForYear(m.year);
+
+          return (
+            <div class="tl-item fade-in">
+              <div class="tl-marker">
+                <div class={`tl-dot${m.isMajor ? " tl-dot--major" : ""}`}></div>
+              </div>
+
+              <div class="tl-year-col">
+                <span class="tl-year">{m.displayYear}</span>
+              </div>
+
+              <div class="tl-content">
+                <span class={`tl-tag${m.isMajor ? " tl-tag--major" : ""}`}>
+                  {m.tag}
+                </span>
+
+                <h3>{m.title}</h3>
+                <p>{m.description}</p>
+
+                {records.length > 0 && (
+                  <div class="timeline-records">
+                    {records.map((record: any) => (
+                      <a
+  href={`/archive/${record.slug.current}`}
+  class={`timeline-record${record.imageUrl ? "" : " timeline-record--no-image"}`}
+>
+                        {record.imageUrl && (
+                          <div class="timeline-record__image">
+                            <img src={record.imageUrl} alt={record.title} />
+                          </div>
+                        )}
+
+                        <div class="timeline-record__content">
+                          <span>Linked Archive Record</span>
+                          <h4>{record.title}</h4>
+                          <p>{record.description}</p>
+
+                          <div class="timeline-record__meta">
+                            {record.location && <small>📍 {record.location}</small>}
+                            {record.contributor && <small>👤 {record.contributor}</small>}
+                          </div>
+
+                          <strong>View full record →</strong>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--sm key-figures">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">People</span>
+        <h2>Key Figures in Early Scouting</h2>
+        <div class="divider divider--center"></div>
+        <p>
+          The individuals whose vision and dedication planted the seeds of
+          Scouting in the Maldives.
+        </p>
+      </div>
+
+      <div class="figures-grid">
+        <div class="figure-card fade-in">
+          <div class="figure-card__avatar">JH</div>
+          <h4>Mr. J.V. Hill</h4>
+          <span class="figure-card__role">Principal, Majeediyya School</span>
+          <p>
+            Led the founding of the first Scout group in the Maldives in 1961,
+            establishing the movement’s institutional home at Majeediyya School.
+          </p>
+        </div>
+
+        <div class="figure-card fade-in">
+          <div class="figure-card__avatar">PG</div>
+          <h4>Mrs. P. George</h4>
+          <span class="figure-card__role">Founder, First Cub Scout Pack</span>
+          <p>
+            Formed the first Cub Scout Pack with eighteen children in 1961,
+            laying the foundation for youth Scouting in the country.
+          </p>
+        </div>
+
+        <div class="figure-card fade-in">
+          <div class="figure-card__avatar">⚜</div>
+          <h4>Early Scout Leaders</h4>
+          <span class="figure-card__role">1961 – 1984</span>
+          <p>
+            The dedicated leaders who sustained and grew the movement through
+            its formative years before formal national registration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="history-cta-band">
+    <div class="container history-cta-band__inner">
+      <div class="fade-in">
+        <h3>Explore the Visual Record</h3>
+        <p>Browse photographs documenting Scouting history across the Maldives.</p>
+      </div>
+
+      <div class="history-cta-band__actions fade-in">
+        <a href="/photo-archive" class="btn btn-primary">Photo Archive</a>
+        <a href="/veterans" class="btn btn-outline">Veteran Stories</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .history-hero {
+      padding-bottom: var(--space-20);
+      position: relative;
+    }
+
+    .history-hero p {
+      max-width: 60ch;
+      margin-inline: auto;
+    }
+
+    .history-intro {
+      background-color: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .history-intro__inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    .history-intro__pull {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+      position: sticky;
+      top: 100px;
+    }
+
+    .pull-year {
+      font-family: var(--font-serif);
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--color-red);
+      line-height: 1;
+    }
+
+    .pull-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-ink-muted);
+      line-height: 1.5;
+    }
+
+    .history-intro__text p {
+      font-size: var(--text-md);
+      line-height: 1.8;
+      max-width: 65ch;
+      margin-top: var(--space-4);
+    }
+
+    .history-intro__text strong {
+      color: var(--color-red);
+      font-weight: 600;
+    }
+
+    .history-timeline {
+      background-color: var(--color-cream);
+    }
+
+    .timeline-full {
+      position: relative;
+      margin-top: var(--space-16);
+      padding-left: 200px;
+    }
+
+    .timeline-full::before {
+      content: "";
+      position: absolute;
+      left: 160px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--color-border) 5%,
+        var(--color-border) 95%,
+        transparent
+      );
+    }
+
+    .tl-item {
+      position: relative;
+      padding-bottom: var(--space-16);
+    }
+
+    .tl-marker {
+      position: absolute;
+      left: -44px;
+      top: 6px;
+    }
+
+    .tl-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background-color: var(--color-border);
+      border: 2px solid var(--color-cream);
+      box-shadow: 0 0 0 1px var(--color-border);
+    }
+
+    .tl-dot--major {
+      width: 15px;
+      height: 15px;
+      background-color: var(--color-red);
+      box-shadow: 0 0 0 1px var(--color-red);
+      margin-left: -2px;
+      margin-top: -2px;
+    }
+
+    .tl-year-col {
+      position: absolute;
+      left: -196px;
+      top: 0;
+      width: 140px;
+      text-align: right;
+    }
+
+    .tl-year {
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-red);
+      line-height: 1.2;
+    }
+
+    .tl-content {
+      padding-left: var(--space-12);
+      padding-right: var(--space-8);
+    }
+
+    .tl-tag {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-ink-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .tl-tag--major {
+      color: var(--color-red);
+    }
+
+    .tl-content h3 {
+      font-size: var(--text-xl);
+      color: var(--color-green);
+      margin-bottom: var(--space-4);
+      line-height: 1.3;
+    }
+
+    .tl-content > p {
+      font-size: var(--text-base);
+      color: var(--color-ink-muted);
+      line-height: 1.8;
+      max-width: 65ch;
+    }
+
+    .timeline-records {
+      display: grid;
+      gap: var(--space-5);
+      margin-top: var(--space-7);
+      max-width: 760px;
+    }
+
+    .timeline-record {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .timeline-record:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .timeline-record__image {
+      min-height: 230px;
+      background: var(--color-cream);
+      overflow: hidden;
+    }
+
+    .timeline-record__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .timeline-record:hover .timeline-record__image img {
+      transform: scale(1.05);
+    }
+
+    .timeline-record__content {
+      padding: var(--space-6);
+    }
+
+    .timeline-record__content span {
+      display: inline-block;
+      margin-bottom: var(--space-2);
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .timeline-record__content h4 {
+      color: var(--color-green);
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-3);
+    }
+
+    .timeline-record__content p {
+      color: var(--color-ink-muted);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      max-width: none;
+    }
+
+    .timeline-record__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+      color: var(--color-ink-muted);
+    }
+
+    .timeline-record__content strong {
+      display: inline-block;
+      margin-top: var(--space-5);
+      color: var(--color-red);
+      font-size: var(--text-sm);
+    }
+
+    .timeline-record--no-image {
+  display: block;
+  max-width: 520px;
+}
+
+.timeline-record--no-image .timeline-record__content {
+  padding: var(--space-6);
+}
+
+.timeline-record--no-image .timeline-record__content p {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+    .key-figures {
+      background-color: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .figures-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-top: var(--space-2);
+    }
+
+    .figure-card {
+      background-color: var(--color-cream);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      padding: var(--space-8) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .figure-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .figure-card__avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: var(--color-green);
+      color: var(--color-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: var(--text-md);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .figure-card h4 {
+      font-size: var(--text-lg);
+      color: var(--color-green);
+      line-height: 1.3;
+    }
+
+    .figure-card__role {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-red);
+    }
+
+    .figure-card p {
+      font-size: var(--text-sm);
+      color: var(--color-ink-muted);
+      line-height: 1.7;
+    }
+
+    .history-cta-band {
+      background-color: var(--color-green);
+      padding-block: var(--space-16);
+    }
+
+    .history-cta-band__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .history-cta-band__inner h3 {
+      font-size: var(--text-2xl);
+      color: var(--color-cream);
+      margin-bottom: var(--space-2);
+    }
+
+    .history-cta-band__inner p {
+      color: var(--color-cream-dark);
+      font-size: var(--text-md);
+    }
+
+    .history-cta-band__actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .history-cta-band .btn-outline {
+      color: var(--color-cream);
+      border-color: var(--color-cream-dark);
+    }
+
+    .history-cta-band .btn-outline:hover {
+      background-color: var(--color-cream);
+      color: var(--color-green);
+    }
+
+    @media (max-width: 1024px) {
+      .timeline-full {
+        padding-left: 140px;
+      }
+
+      .timeline-full::before {
+        left: 110px;
+      }
+
+      .tl-year-col {
+        left: -136px;
+        width: 100px;
+      }
+
+      .tl-marker {
+        left: -34px;
+      }
+
+      .tl-year {
+        font-size: var(--text-xl);
+      }
+
+      .timeline-record {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-record__image {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .history-intro__inner {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+      }
+
+      .history-intro__pull {
+        flex-direction: row;
+        justify-content: flex-start;
+        position: static;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: var(--space-6);
+      }
+
+      .pull-label {
+        text-align: left;
+      }
+
+      .timeline-full {
+        padding-left: 80px;
+      }
+
+      .timeline-full::before {
+        left: 56px;
+      }
+
+      .tl-year-col {
+        left: -78px;
+        width: 60px;
+      }
+
+      .tl-year {
+        font-size: var(--text-lg);
+      }
+
+      .tl-marker {
+        left: -26px;
+      }
+
+      .tl-content {
+        padding-left: var(--space-6);
+        padding-right: 0;
+      }
+
+      .timeline-record__image {
+        height: 220px;
+      }
+
+      .figures-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .history-cta-band__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .history-cta-band__actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</BaseLayout>

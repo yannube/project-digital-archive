@@ -1,0 +1,441 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sanityClient } from "../../lib/sanity";
+
+export async function getStaticPaths() {
+  const items = await sanityClient.fetch(`
+    *[_type == "archiveItem" && defined(slug.current)] {
+      "slug": slug.current
+    }
+  `);
+
+  return items.map((item: any) => ({
+    params: { slug: item.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const query = `
+*[_type == "archiveItem" && slug.current == $slug][0] {
+  title,
+  year,
+  category,
+  description,
+  tags,
+  location,
+  contributor,
+  source,
+  "imageUrl": image.asset->url
+}
+`;
+
+const item = await sanityClient.fetch(query, { slug });
+
+const relatedQuery = `
+*[
+  _type == "archiveItem" &&
+  slug.current != $slug &&
+  category == $category
+] | order(year desc)[0...3] {
+  title,
+  slug,
+  year,
+  category,
+  description,
+  "imageUrl": image.asset->url
+}
+`;
+
+const relatedItems = await sanityClient.fetch(relatedQuery, {
+  slug,
+  category: item.category,
+});
+---
+
+<BaseLayout title={item.title}>
+  <section class="archive-detail">
+    <div class="container">
+
+      <a href="/archive" class="back-link">← Back to Archive</a>
+
+      <div class="detail-hero">
+        <div class="detail-hero__text">
+          <span class="detail-category">{item.category}</span>
+          <h1>{item.title}</h1>
+
+          <div class="detail-meta">
+            {item.year && <span>{item.year}</span>}
+            {item.location && <span>📍 {item.location}</span>}
+            {item.contributor && <span>👤 {item.contributor}</span>}
+          </div>
+        </div>
+
+        {item.imageUrl && (
+          <div class="detail-image">
+            <img src={item.imageUrl} alt={item.title} />
+          </div>
+        )}
+      </div>
+
+      <div class="detail-layout">
+        <aside class="detail-sidebar">
+          <span class="sidebar-label">Record Metadata</span>
+
+          <div class="metadata-list">
+            {item.year && (
+              <div>
+                <small>Year</small>
+                <strong>{item.year}</strong>
+              </div>
+            )}
+
+            {item.category && (
+              <div>
+                <small>Category</small>
+                <strong>{item.category}</strong>
+              </div>
+            )}
+
+            {item.location && (
+              <div>
+                <small>Location</small>
+                <strong>{item.location}</strong>
+              </div>
+            )}
+
+            {item.contributor && (
+              <div>
+                <small>Contributor</small>
+                <strong>{item.contributor}</strong>
+              </div>
+            )}
+          </div>
+        </aside>
+
+        <article class="detail-content">
+          <span class="section-label">Archive Record</span>
+          <h2>About this record</h2>
+
+          <p>{item.description}</p>
+
+          {Array.isArray(item.tags) && item.tags.length > 0 && (
+            <div class="detail-tags">
+              {item.tags.map((tag: string) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+
+          {item.source && (
+            <div class="detail-source">
+              <strong>Source / Reference</strong>
+              <span>{item.source}</span>
+            </div>
+          )}
+        </article>
+      </div>
+
+      {relatedItems.length > 0 && (
+        <section class="related-records">
+          <div class="section-header text-center">
+            <span class="section-label">Related Records</span>
+            <h2>More from this collection</h2>
+            <div class="divider divider--center"></div>
+          </div>
+
+          <div class="related-grid">
+            {relatedItems.map((related: any) => (
+              <a href={`/archive/${related.slug.current}`} class="related-card">
+                {related.imageUrl && (
+                  <div class="related-card__image">
+                    <img src={related.imageUrl} alt={related.title} />
+                  </div>
+                )}
+
+                <div class="related-card__content">
+                  <span>{related.year}</span>
+                  <h3>{related.title}</h3>
+                  <p>{related.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </section>
+
+  <style>
+    .archive-detail {
+      padding: 90px 0 120px;
+      background: var(--color-cream);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 32px;
+      color: var(--color-red);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .detail-hero {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: var(--space-10);
+      align-items: center;
+      margin-bottom: var(--space-16);
+    }
+
+    .detail-category {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(67, 2, 1, 0.08);
+      color: var(--color-red);
+      margin-bottom: 22px;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .detail-hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      color: var(--color-green);
+      margin-bottom: var(--space-6);
+    }
+
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--color-ink-muted);
+      font-size: var(--text-sm);
+      font-weight: 600;
+    }
+
+    .detail-image {
+      height: 560px;
+      overflow: hidden;
+      border-radius: 34px;
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .detail-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--space-12);
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .detail-sidebar {
+      position: sticky;
+      top: 110px;
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      padding: var(--space-6);
+    }
+
+    .sidebar-label {
+      display: inline-block;
+      margin-bottom: var(--space-5);
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metadata-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .metadata-list div {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-4);
+    }
+
+    .metadata-list div:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .metadata-list small {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--color-ink-muted);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metadata-list strong {
+      color: var(--color-green);
+      font-size: var(--text-sm);
+    }
+
+    .detail-content {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 28px;
+      padding: var(--space-10);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-content h2 {
+      color: var(--color-green);
+      margin-bottom: var(--space-6);
+    }
+
+    .detail-content p {
+      font-size: var(--text-md);
+      line-height: 2;
+      color: var(--color-ink-muted);
+    }
+
+    .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: var(--space-8);
+    }
+
+    .tag {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #f3f0eb;
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 700;
+    }
+
+    .detail-source {
+      margin-top: var(--space-8);
+      padding: var(--space-6);
+      border-radius: 18px;
+      background: rgba(67, 2, 1, 0.05);
+      color: #444;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-source strong {
+      color: var(--color-red);
+    }
+
+    .related-records {
+      margin-top: var(--space-20);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-top: var(--space-10);
+    }
+
+    .related-card {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .related-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .related-card__image {
+      height: 190px;
+      overflow: hidden;
+    }
+
+    .related-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .related-card__content {
+      padding: var(--space-6);
+    }
+
+    .related-card__content span {
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 700;
+    }
+
+    .related-card__content h3 {
+      color: var(--color-green);
+      margin: var(--space-2) 0;
+      font-size: var(--text-md);
+    }
+
+    .related-card__content p {
+      color: var(--color-ink-muted);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    @media (max-width: 950px) {
+      .detail-hero,
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-sidebar {
+        position: static;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .archive-detail {
+        padding: 70px 0 90px;
+      }
+
+      .detail-image {
+        height: 300px;
+        border-radius: 22px;
+      }
+
+      .detail-content {
+        padding: var(--space-6);
+      }
+
+      .detail-content p {
+        font-size: var(--text-base);
+      }
+    }
+  </style>
+</BaseLayout>

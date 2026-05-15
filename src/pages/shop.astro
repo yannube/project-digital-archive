@@ -1,0 +1,551 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const categories = [
+  {
+    icon: "👕",
+    title: "Uniforms",
+    description: "Official Scout uniforms for all sections — Cubs, Scouts, and Rover Scouts.",
+    items: [
+      { name: "Rover Scout Shirt", description: "Official khaki long-sleeve Rover Scout shirt with epaulettes.", price: "MVR 250", available: false },
+      { name: "Scout Neckerchief", description: "The official Maldivian Scout neckerchief in national colours.", price: "MVR 80", available: false },
+      { name: "Scout Belt & Woggle", description: "Standard Scout belt with brass buckle and leather woggle.", price: "MVR 120", available: false },
+    ],
+  },
+  {
+    icon: "🎖",
+    title: "Badges & Awards",
+    description: "Proficiency badges, rank badges, and special recognition awards.",
+    items: [
+      { name: "Proficiency Badge Set", description: "Full set of Scout proficiency badges for all skill areas.", price: "MVR 180", available: false },
+      { name: "BP Award Badge", description: "The Baden-Powell Award badge for Rover Scouts.", price: "MVR 95", available: false },
+      { name: "Scout Rank Badges", description: "Complete set of Scout rank progression badges.", price: "MVR 140", available: false },
+    ],
+  },
+  {
+    icon: "🎒",
+    title: "Accessories",
+    description: "Scout accessories, gear, and equipment for camps and activities.",
+    items: [
+      { name: "Scout Handbook", description: "The official Scout handbook covering all core skills and programme.", price: "MVR 150", available: false },
+      { name: "Scout Compass", description: "Standard orienteering compass for navigation training.", price: "MVR 200", available: false },
+      { name: "Patrol Flag", description: "Custom patrol flag with Scout emblem — printed on quality fabric.", price: "MVR 300", available: false },
+    ],
+  },
+  {
+    icon: "📚",
+    title: "Publications",
+    description: "Books, guides, and printed materials related to Scouting in the Maldives.",
+    items: [
+      { name: "History of Maldivian Scouting", description: "A printed record of the Scouting movement in the Maldives from 1961.", price: "MVR 200", available: false },
+      { name: "Scout Leader Guide", description: "Comprehensive guide for Scout leaders covering programme and training.", price: "MVR 175", available: false },
+      { name: "Mahaldheeb Scoutun Zine", description: "A printed heritage zine produced by the 14th Malé Rover Crew.", price: "MVR 60", available: false },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Scout Shop"
+  description="Official Scout uniforms, badges, accessories, and publications — coming soon from Mahaldheeb Scoutun."
+>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════════ -->
+  <section class="page-hero shop-hero">
+    <div class="container">
+      <span class="section-label">Scout Shop</span>
+      <h1>Scout Shop</h1>
+      <p>
+        Official Scout uniforms, badges, accessories, and publications.
+        Supporting the movement while wearing it with pride.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       COMING SOON BAND
+  ═══════════════════════════════════════════ -->
+  <div class="shop-notice-band">
+    <div class="container shop-notice-band__inner">
+      <div class="shop-notice-band__icon">🏗</div>
+      <div>
+        <strong>Shop is coming soon</strong>
+        <p>
+          We are currently setting up the Scout Shop. Products will be available
+          for order shortly. In the meantime, browse what we are planning to stock
+          and register your interest below.
+        </p>
+      </div>
+      <a href="/contact" class="btn btn-outline shop-notice-band__btn">Register Interest</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PRODUCT CATEGORIES
+  ═══════════════════════════════════════════ -->
+  <section class="section shop-main">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">What We Will Stock</span>
+        <h2>Product Categories</h2>
+        <div class="divider divider--center"></div>
+        <p>A preview of the items that will be available in the Scout Shop.</p>
+      </div>
+
+      {categories.map((cat, ci) => (
+        <div class={`shop-category fade-in ${ci > 0 ? 'shop-category--bordered' : ''}`}>
+
+          <div class="shop-category__header">
+            <div class="shop-category__icon">{cat.icon}</div>
+            <div>
+              <h2>{cat.title}</h2>
+              <p>{cat.description}</p>
+            </div>
+          </div>
+
+          <div class="product-grid">
+            {cat.items.map((item) => (
+              <div class="product-card">
+                <div class="product-card__image">
+                  <span class="product-card__image-icon">{cat.icon}</span>
+                  <span class="product-card__coming-overlay">Coming Soon</span>
+                </div>
+                <div class="product-card__body">
+                  <h4>{item.name}</h4>
+                  <p>{item.description}</p>
+                </div>
+                <div class="product-card__footer">
+                  <span class="product-card__price">{item.price}</span>
+                  <button class="product-card__btn" disabled>
+                    Not Yet Available
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       WHY SHOP HERE
+  ═══════════════════════════════════════════ -->
+  <section class="section--sm shop-why">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Why Buy From Us</span>
+        <h2>Supporting Scouting Directly</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="shop-why-grid">
+
+        <div class="shop-why-card fade-in">
+          <div class="shop-why-card__icon">⚜</div>
+          <h4>Official Items</h4>
+          <p>All products are official Scout items endorsed by the Scout Association of Maldives.</p>
+        </div>
+
+        <div class="shop-why-card fade-in">
+          <div class="shop-why-card__icon">💰</div>
+          <h4>Funds the Archive</h4>
+          <p>Proceeds from shop sales directly support the maintenance and growth of this heritage archive.</p>
+        </div>
+
+        <div class="shop-why-card fade-in">
+          <div class="shop-why-card__icon">🏝</div>
+          <h4>Ships Across Maldives</h4>
+          <p>We plan to offer delivery to all atolls so Scouts everywhere can access official materials.</p>
+        </div>
+
+        <div class="shop-why-card fade-in">
+          <div class="shop-why-card__icon">🤝</div>
+          <h4>Community First</h4>
+          <p>The shop is run by Scouts, for Scouts — rooted in the values of service and integrity.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       NOTIFY BAND
+  ═══════════════════════════════════════════ -->
+  <section class="shop-notify-band">
+    <div class="container shop-notify-band__inner">
+      <div class="fade-in">
+        <h3>Want to be notified when the shop opens?</h3>
+        <p>Get in touch and we will let you know as soon as products are available.</p>
+      </div>
+      <div class="shop-notify-band__actions fade-in">
+        <a href="/contact" class="btn btn-primary">Notify Me</a>
+        <a href="/about" class="btn btn-outline-light">About the Project</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* ═══════════════════════════════════════════
+   NOTICE BAND
+═══════════════════════════════════════════ */
+.shop-notice-band {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-6);
+}
+
+.shop-notice-band__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.shop-notice-band__icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.shop-notice-band__inner strong {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-green);
+  margin-bottom: var(--space-1);
+}
+
+.shop-notice-band__inner p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+.shop-notice-band__btn {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   SHOP MAIN
+═══════════════════════════════════════════ */
+.shop-main {
+  background-color: var(--color-cream);
+}
+
+.shop-category {
+  padding-bottom: var(--space-16);
+}
+
+.shop-category--bordered {
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--color-border);
+}
+
+.shop-category__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.shop-category__icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.shop-category__header h2 {
+  font-size: var(--text-2xl);
+  color: var(--color-green);
+  margin-bottom: var(--space-2);
+}
+
+.shop-category__header p {
+  font-size: var(--text-md);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  max-width: 55ch;
+}
+
+/* ── Product Grid ── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.product-card {
+  background-color: var(--color-cream-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.product-card__image {
+  height: 160px;
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-mid) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card__image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 12px,
+    rgba(236, 226, 209, 0.03) 12px,
+    rgba(236, 226, 209, 0.03) 13px
+  );
+}
+
+.product-card__image-icon {
+  font-size: 2.5rem;
+  opacity: 0.35;
+  position: relative;
+  z-index: 1;
+}
+
+.product-card__coming-overlay {
+  position: absolute;
+  bottom: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-cream-dark);
+  background-color: rgba(26, 22, 18, 0.4);
+  padding: var(--space-1) var(--space-3);
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.product-card__body {
+  padding: var(--space-5) var(--space-5) var(--space-3);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.product-card__body h4 {
+  font-size: var(--text-md);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.product-card__body p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+}
+
+.product-card__footer {
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.product-card__price {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-red);
+}
+
+.product-card__btn {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-cream);
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════
+   WHY SHOP HERE
+═══════════════════════════════════════════ */
+.shop-why {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+}
+
+.shop-why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.shop-why-card {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.shop-why-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.shop-why-card__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.shop-why-card h4 {
+  font-size: var(--text-md);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.shop-why-card p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   NOTIFY BAND
+═══════════════════════════════════════════ */
+.shop-notify-band {
+  background-color: var(--color-red);
+  padding-block: var(--space-16);
+}
+
+.shop-notify-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.shop-notify-band__inner h3 {
+  font-size: var(--text-2xl);
+  color: var(--color-cream);
+  margin-bottom: var(--space-2);
+}
+
+.shop-notify-band__inner p {
+  color: rgba(247, 242, 235, 0.8);
+  font-size: var(--text-md);
+}
+
+.shop-notify-band__actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-8);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid rgba(247, 242, 235, 0.5);
+  border-radius: var(--border-radius);
+  color: var(--color-cream);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  background: transparent;
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(247, 242, 235, 0.12);
+  border-color: var(--color-cream);
+  color: var(--color-cream);
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shop-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .shop-category__header {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-notice-band__btn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .shop-notify-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .shop-notify-band__actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

@@ -1,0 +1,675 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sanityClient } from "../../lib/sanity";
+
+export async function getStaticPaths() {
+  const veterans = await sanityClient.fetch(`
+    *[_type == "veteran" && defined(slug.current)] {
+      "slug": slug.current
+    }
+  `);
+
+  return veterans.map((v: any) => ({
+    params: { slug: v.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const query = `
+*[_type == "veteran" && slug.current == $slug][0] {
+  _id,
+  name,
+  initials,
+  role,
+  era,
+  island,
+  tagline,
+  excerpt,
+  fullStory,
+  birthDate,
+  quote,
+  videoUrl,
+  awards,
+  tags,
+  timeline,
+  "profilePhotoUrl": profilePhoto.asset->url,
+  "heroBackgroundUrl": heroBackground.asset->url,
+  "galleryUrls": gallery[].asset->url,
+  "interviewVideoUrl": interviewVideo.asset->url
+}
+`;
+
+const veteran = await sanityClient.fetch(query, { slug });
+
+if (!veteran) {
+  return Astro.redirect("/veterans");
+}
+
+function renderPortableText(blocks: any[] = []) {
+  return blocks
+    .filter((block) => block?._type === "block")
+    .map((block) => {
+      const text = block.children?.map((child: any) => child.text).join("") || "";
+      return {
+        style: block.style || "normal",
+        text,
+      };
+    });
+}
+
+const storyBlocks = Array.isArray(veteran.fullStory)
+  ? renderPortableText(veteran.fullStory)
+  : [];
+---
+
+<BaseLayout
+  title={veteran.name}
+  description={veteran.excerpt || veteran.tagline || "Veteran Scout profile from the Scouting in Maldives digital archive."}
+>
+  <section
+    class="veteran-detail-hero"
+    style={veteran.heroBackgroundUrl ? `background-image: linear-gradient(rgba(24,22,15,0.74), rgba(24,22,15,0.74)), url(${veteran.heroBackgroundUrl});` : ""}
+  >
+    <div class="container">
+      <a href="/veterans" class="back-link">← Back to Veteran Stories</a>
+
+      <div class="hero-card">
+        <div class="hero-photo">
+          {veteran.profilePhotoUrl ? (
+            <img src={veteran.profilePhotoUrl} alt={veteran.name} />
+          ) : (
+            <div class="photo-placeholder">
+              {veteran.initials || veteran.name?.charAt(0)}
+            </div>
+          )}
+        </div>
+
+        <div class="hero-info">
+          <span class="section-label">Veteran Scout</span>
+
+          <h1>{veteran.name}</h1>
+
+          {veteran.tagline && <h2>{veteran.tagline}</h2>}
+
+          <div class="hero-meta">
+            {veteran.role && <span>{veteran.role}</span>}
+            {veteran.era && <span>{veteran.era}</span>}
+            {veteran.island && <span>{veteran.island}</span>}
+            {veteran.birthDate && <span>Born: {veteran.birthDate}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section biography-section">
+    <div class="container biography-layout">
+      <article class="bio-content">
+        <span class="section-label">Biography</span>
+
+        <h2>Overview</h2>
+
+        {veteran.excerpt && <p class="lead">{veteran.excerpt}</p>}
+
+        {storyBlocks.length > 0 ? (
+          <div class="portable-content">
+            {storyBlocks.map((block: any) => (
+              <>
+                {block.style === "h2" ? (
+                  <h3>{block.text}</h3>
+                ) : block.style === "h3" ? (
+                  <h4>{block.text}</h4>
+                ) : (
+                  <p>{block.text}</p>
+                )}
+              </>
+            ))}
+          </div>
+        ) : (
+          <p>
+            Full biography content will be added here as the archive is expanded.
+          </p>
+        )}
+      </article>
+
+      <aside class="bio-sidebar">
+        {veteran.quote && (
+          <div class="quote-card">
+            <span>Featured Quote</span>
+            <blockquote>“{veteran.quote}”</blockquote>
+          </div>
+        )}
+
+        {Array.isArray(veteran.awards) && veteran.awards.length > 0 && (
+          <div class="side-card">
+            <span>Awards & Recognition</span>
+
+            <ul>
+              {veteran.awards.map((award: string) => (
+                <li>{award}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {Array.isArray(veteran.tags) && veteran.tags.length > 0 && (
+          <div class="tag-card">
+            {veteran.tags.map((tag: string) => (
+              <span>{tag}</span>
+            ))}
+          </div>
+        )}
+      </aside>
+    </div>
+  </section>
+
+  {(veteran.interviewVideoUrl || veteran.videoUrl) && (
+    <section class="section video-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">Oral History</span>
+
+          <h2>Video Interview</h2>
+
+          <div class="divider divider--center"></div>
+
+          <p>
+            Preserving the voice, memories, and reflections of this veteran Scout.
+          </p>
+        </div>
+
+        <div class="video-card">
+          {veteran.interviewVideoUrl ? (
+            <video
+              controls
+              playsinline
+              preload="metadata"
+              poster={veteran.profilePhotoUrl || undefined}
+            >
+              <source src={veteran.interviewVideoUrl} type="video/mp4" />
+              Your browser does not support video playback.
+            </video>
+          ) : (
+            <iframe
+              src={veteran.videoUrl}
+              title={`${veteran.name} interview`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {Array.isArray(veteran.galleryUrls) && veteran.galleryUrls.length > 0 && (
+    <section class="section gallery-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">Historical Gallery</span>
+
+          <h2>Archive Photographs</h2>
+
+          <div class="divider divider--center"></div>
+        </div>
+
+        <div class="detail-gallery">
+          {veteran.galleryUrls.map((url: string) => (
+            <img src={url} alt={`${veteran.name} archive photo`} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {Array.isArray(veteran.timeline) && veteran.timeline.length > 0 && (
+    <section class="section timeline-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">Timeline Highlights</span>
+
+          <h2>Life in Scouting</h2>
+
+          <div class="divider divider--center"></div>
+        </div>
+
+        <div class="timeline-list">
+          {veteran.timeline.map((item: any) => (
+            <div class="timeline-item">
+              <span>{item.year}</span>
+              <p>{item.event}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="veteran-cta">
+    <div class="container veteran-cta__inner">
+      <div>
+        <h3>Help preserve more veteran stories.</h3>
+
+        <p>
+          Submit photographs, memories, documents, or interview details to support
+          the archive.
+        </p>
+      </div>
+
+      <a href="/contact" class="btn btn-primary">Submit Materials</a>
+    </div>
+  </section>
+
+  <style>
+    .veteran-detail-hero {
+      padding: 90px 0 110px;
+      background-color: var(--color-green);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: var(--space-8);
+      color: var(--color-cream);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .back-link:hover {
+      color: var(--color-cream-dark);
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      background: var(--color-cream-light);
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .hero-photo {
+      min-height: 520px;
+      background: var(--color-cream);
+      overflow: hidden;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: var(--color-green);
+      color: var(--color-cream);
+      font-family: var(--font-serif);
+      font-size: 5rem;
+      font-weight: 700;
+    }
+
+    .hero-info {
+      padding: var(--space-12);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-info h1 {
+      color: var(--color-green);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.95;
+      margin: var(--space-4) 0;
+    }
+
+    .hero-info h2 {
+      color: var(--color-red);
+      font-size: var(--text-lg);
+      max-width: 45ch;
+      line-height: 1.5;
+      margin-bottom: var(--space-8);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .hero-meta span {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(67, 2, 1, 0.08);
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .biography-section {
+      background: var(--color-cream);
+    }
+
+    .biography-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: var(--space-10);
+      align-items: start;
+    }
+
+    .bio-content {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 32px;
+      padding: var(--space-10);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bio-content h2 {
+      color: var(--color-green);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      margin: var(--space-4) 0 var(--space-6);
+      line-height: 1;
+    }
+
+    .bio-content .lead {
+      color: var(--color-green);
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      line-height: 1.55;
+      margin-bottom: var(--space-8);
+    }
+
+    .portable-content p,
+    .bio-content > p {
+      color: var(--color-ink-muted);
+      line-height: 1.9;
+      margin-bottom: var(--space-5);
+    }
+
+    .portable-content h3 {
+      color: var(--color-green);
+      font-size: var(--text-2xl);
+      margin: var(--space-8) 0 var(--space-4);
+    }
+
+    .portable-content h4 {
+      color: var(--color-red);
+      font-size: var(--text-lg);
+      margin: var(--space-6) 0 var(--space-3);
+    }
+
+    .bio-sidebar {
+      position: sticky;
+      top: 100px;
+      display: grid;
+      gap: var(--space-5);
+    }
+
+    .quote-card,
+    .side-card,
+    .tag-card {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 28px;
+      padding: var(--space-7);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quote-card > span,
+    .side-card > span {
+      display: block;
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+
+    .quote-card blockquote {
+      color: var(--color-green);
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .side-card ul {
+      display: grid;
+      gap: var(--space-3);
+      padding-left: 1.2rem;
+    }
+
+    .side-card li {
+      color: var(--color-ink-muted);
+      line-height: 1.6;
+    }
+
+    .tag-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .tag-card span {
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(67, 2, 1, 0.08);
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 800;
+    }
+
+    .video-section {
+      background: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .video-card {
+      max-width: 980px;
+      margin: var(--space-10) auto 0;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .video-card video,
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: 0;
+      background: #000;
+    }
+
+    .video-card video {
+      object-fit: contain;
+    }
+
+    .gallery-section {
+      background: var(--color-cream);
+    }
+
+    .detail-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      margin-top: var(--space-10);
+    }
+
+    .detail-gallery img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 24px;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      background: var(--color-cream-light);
+    }
+
+    .timeline-section {
+      background: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .timeline-list {
+      max-width: 850px;
+      margin: var(--space-12) auto 0;
+      position: relative;
+    }
+
+    .timeline-list::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 175px;
+      width: 1px;
+      background: var(--color-border);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--space-10);
+      padding: var(--space-6) 0;
+      position: relative;
+    }
+
+    .timeline-item::after {
+      content: "";
+      position: absolute;
+      left: 170px;
+      top: 34px;
+      width: 11px;
+      height: 11px;
+      background: var(--color-green);
+      border-radius: 50%;
+      border: 3px solid var(--color-cream-light);
+    }
+
+    .timeline-item span {
+      color: var(--color-red);
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .timeline-item p {
+      color: var(--color-ink-muted);
+      line-height: 1.8;
+    }
+
+    .veteran-cta {
+      background: var(--color-green);
+      padding-block: var(--space-16);
+    }
+
+    .veteran-cta__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .veteran-cta h3 {
+      color: var(--color-cream);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+    }
+
+    .veteran-cta p {
+      color: var(--color-cream-dark);
+      max-width: 60ch;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1000px) {
+      .hero-card,
+      .biography-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .bio-sidebar {
+        position: static;
+      }
+
+      .detail-gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .veteran-detail-hero {
+        padding: 70px 0 80px;
+      }
+
+      .hero-card,
+      .bio-content,
+      .quote-card,
+      .side-card,
+      .tag-card,
+      .video-card {
+        border-radius: 24px;
+      }
+
+      .hero-info,
+      .bio-content {
+        padding: var(--space-7);
+      }
+
+      .hero-photo {
+        min-height: 340px;
+      }
+
+      .hero-info h1 {
+        font-size: clamp(2.6rem, 12vw, 4rem);
+      }
+
+      .detail-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-gallery img {
+        height: 280px;
+      }
+
+      .timeline-list::before {
+        left: 8px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+        padding-left: var(--space-8);
+      }
+
+      .timeline-item::after {
+        left: 3px;
+      }
+
+      .timeline-item span {
+        text-align: left;
+      }
+
+      .veteran-cta__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</BaseLayout>

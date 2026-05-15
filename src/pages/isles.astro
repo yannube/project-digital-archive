@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Scouting Across Isles">
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-label">Phase 2 Feature</span>
+      <h1>Scouting Across<br />the Isles</h1>
+      <p>
+        An interactive Maldives island archive map is planned for the next phase
+        of Mahaldheeb Scoutun.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container coming-grid">
+      <div class="coming-card fade-in">
+        <span class="section-label">Coming Soon</span>
+        <h2>Interactive Island Map</h2>
+        <p>
+          This feature will allow visitors to explore Scouting across the
+          Maldives by atoll, island, Scout group, Rover crew, scarves, badges,
+          photos, and archived records.
+        </p>
+
+        <div class="feature-list">
+          <div>Atoll-level map explorer</div>
+          <div>Island profile pages</div>
+          <div>Scout group records</div>
+          <div>Scarves, logos, and troop badges</div>
+          <div>Photos and historical documents by island</div>
+        </div>
+
+        <a href="/archive" class="btn btn-primary">Explore Current Archive</a>
+      </div>
+
+      <div class="map-preview fade-in">
+        <div class="map-line"></div>
+        <span>HA</span>
+        <span>HDh</span>
+        <span>Sh</span>
+        <span>N</span>
+        <span>R</span>
+        <span>B</span>
+        <span>K</span>
+        <span>GA</span>
+        <span>S</span>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .coming-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+
+    .coming-card,
+    .map-preview {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 34px;
+      padding: var(--space-10);
+      box-shadow: var(--shadow-md);
+    }
+
+    .coming-card h2 {
+      color: var(--color-green);
+      margin: var(--space-4) 0;
+    }
+
+    .coming-card p {
+      color: var(--color-ink-muted);
+      line-height: 1.8;
+      max-width: 65ch;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: var(--space-3);
+      margin: var(--space-8) 0;
+    }
+
+    .feature-list div {
+      padding: var(--space-4);
+      border-radius: 16px;
+      background: var(--color-cream);
+      color: var(--color-green);
+      font-weight: 700;
+      border: 1px solid var(--color-border);
+    }
+
+    .map-preview {
+      position: relative;
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      overflow: hidden;
+    }
+
+    .map-line {
+      position: absolute;
+      top: 8%;
+      bottom: 8%;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--color-red), transparent);
+      opacity: 0.35;
+    }
+
+    .map-preview span {
+      position: relative;
+      z-index: 2;
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--color-green);
+      color: var(--color-cream);
+      font-weight: 900;
+      box-shadow: var(--shadow-md);
+    }
+
+    .map-preview span:nth-child(even) {
+      transform: translateX(-42px);
+    }
+
+    .map-preview span:nth-child(odd) {
+      transform: translateX(42px);
+    }
+
+    @media (max-width: 900px) {
+      .coming-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-preview {
+        min-height: 420px;
+      }
+    }
+  </style>
+</BaseLayout>

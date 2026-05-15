@@ -1,17 +1,859 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home" description="Mahaldheeb Scoutun — A digital heritage archive preserving the history and legacy of Scouting in the Maldives.">
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero__bg-pattern"></div>
+    <div class="hero__content container">
+      <div class="hero__badge">
+        <span>⚜</span>
+        <span>Est. 1961 · Maldives</span>
+      </div>
+      <div class="hero-logo">
+  <img src="/images/logo.png" alt="Mahaldheeb Scoutun Logo" />
+</div>
+      <p class="hero__tagline">
+        Preserving the legacy of Maldivian Scouting<br class="hero__br"/>
+        for generations to come.
+      </p>
+      <div class="hero__actions">
+        <a href="/history" class="btn btn-primary">Explore the Archive</a>
+        <a href="/veterans" class="btn btn-outline">Discover Stories</a>
+      </div>
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-number">60+</span>
+          <span class="hero__meta-label">Years of History</span>
+        </div>
+        <div class="hero__meta-divider"></div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-number">200+</span>
+          <span class="hero__meta-label">Archived Photos</span>
+        </div>
+        <div class="hero__meta-divider"></div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-number">50+</span>
+          <span class="hero__meta-label">Veteran Stories</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       INTRODUCTION BAND
+  ═══════════════════════════════════════════ -->
+  <section class="intro-band">
+    <div class="container intro-band__inner">
+      <p class="intro-band__text">
+        A <strong>BP Award</strong> initiative by the 14th Malé Rover Crew — documenting, preserving,
+        and sharing the rich heritage of Scouting across the islands of the Maldives.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       HIGHLIGHTS — 3 FEATURED CARDS
+  ═══════════════════════════════════════════ -->
+  <section class="section highlights">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Featured</span>
+        <h2>From the Archive</h2>
+        <div class="divider divider--center"></div>
+        <p>A glimpse into the stories, images, and milestones we are preserving.</p>
+      </div>
+
+      <div class="highlights__grid">
+
+        <article class="highlight-card fade-in">
+          <div class="highlight-card__img highlight-card__img--history">
+            <span class="highlight-card__year">1961</span>
+          </div>
+          <div class="highlight-card__body">
+            <span class="section-label">Scouting History</span>
+            <h3>The Beginning at Majeediyya School</h3>
+            <p>Scouting in the Maldives traces its roots to 1961 when the first Scout group was formed under Principal Mr. J.V. Hill.</p>
+            <a href="/history" class="btn btn-ghost">Read the History →</a>
+          </div>
+        </article>
+
+        <article class="highlight-card fade-in">
+          <div class="highlight-card__img highlight-card__img--veterans">
+            <span class="highlight-card__year">Legacy</span>
+          </div>
+          <div class="highlight-card__body">
+            <span class="section-label">Veteran Stories</span>
+            <h3>Voices of Those Who Came Before</h3>
+            <p>Personal narratives, memories, and contributions from the veterans who built Maldivian Scouting from the ground up.</p>
+            <a href="/veterans" class="btn btn-ghost">Discover Stories →</a>
+          </div>
+        </article>
+
+        <article class="highlight-card fade-in">
+          <div class="highlight-card__img highlight-card__img--archive">
+            <span class="highlight-card__year">Photos</span>
+          </div>
+          <div class="highlight-card__body">
+            <span class="section-label">Photo Archive</span>
+            <h3>A Visual Record of Scouting Life</h3>
+            <p>Camps, jamborees, patrols, and badge ceremonies — documented in photographs spanning over six decades.</p>
+            <a href="/photo-archive" class="btn btn-ghost">Browse Archive →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TIMELINE TEASER
+  ═══════════════════════════════════════════ -->
+  <section class="section--sm timeline-teaser">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Milestones</span>
+        <h2>Key Moments in History</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline__item fade-in">
+          <div class="timeline__year">1961</div>
+          <div class="timeline__content">
+            <h4>Scouting Begins</h4>
+            <p>First Scout group formed at Majeediyya School, Malé.</p>
+          </div>
+        </div>
+        <div class="timeline__item fade-in">
+          <div class="timeline__year">1963</div>
+          <div class="timeline__content">
+            <h4>London Registration</h4>
+            <p>Majeediyya Scout Group registered with Imperial Scout Headquarters in London.</p>
+          </div>
+        </div>
+        <div class="timeline__item fade-in">
+          <div class="timeline__year">1964</div>
+          <div class="timeline__content">
+            <h4>Sea Scouting</h4>
+            <p>Sea Scouting introduced, reflecting the island nation's maritime heritage.</p>
+          </div>
+        </div>
+        <div class="timeline__item fade-in">
+          <div class="timeline__year">1984</div>
+          <div class="timeline__content">
+            <h4>Official Association</h4>
+            <p>Maldives Boy Scouts Association officially registered on 28 January.</p>
+          </div>
+        </div>
+        <div class="timeline__item fade-in">
+          <div class="timeline__year">1986</div>
+          <div class="timeline__content">
+            <h4>First Jamboree</h4>
+            <p>First National Scout Jamboree held at Kuda Bandos, 20–23 September.</p>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-teaser__cta text-center fade-in">
+        <a href="/history" class="btn btn-outline">View Full History</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION CARDS
+  ═══════════════════════════════════════════ -->
+  <section class="section nav-cards">
+    <div class="container">
+      <div class="section-header text-center fade-in">
+        <span class="section-label">Explore</span>
+        <h2>What's Inside the Archive</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="nav-cards__grid">
+
+        <a href="/history" class="nav-card fade-in">
+          <div class="nav-card__icon">📜</div>
+          <h4>Scouting History</h4>
+          <p>The full documented history of Maldivian Scouting from 1961 onwards.</p>
+        </a>
+
+        <a href="/veterans" class="nav-card fade-in">
+          <div class="nav-card__icon">🎖</div>
+          <h4>Veteran Stories</h4>
+          <p>Personal accounts from scouts who shaped the movement.</p>
+        </a>
+
+        <a href="/photo-archive" class="nav-card fade-in">
+          <div class="nav-card__icon">📷</div>
+          <h4>Photo Archive</h4>
+          <p>Decades of scouting life captured in photographs.</p>
+        </a>
+
+        <a href="/projects" class="nav-card fade-in">
+          <div class="nav-card__icon">🌿</div>
+          <h4>Scouting Projects</h4>
+          <p>Community service and leadership projects by scouts.</p>
+        </a>
+
+        <a href="/resources" class="nav-card fade-in">
+          <div class="nav-card__icon">📚</div>
+          <h4>Resources</h4>
+          <p>Training guides, badges, and educational materials.</p>
+        </a>
+
+        <a href="/isles" class="nav-card fade-in">
+          <div class="nav-card__icon">🏝</div>
+          <h4>Across the Isles</h4>
+          <p>Scouting activity across every island of the Maldives.</p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT PREVIEW
+  ═══════════════════════════════════════════ -->
+  <section class="section about-preview">
+    <div class="container about-preview__inner">
+      <div class="about-preview__text fade-in">
+        <span class="section-label">About the Initiative</span>
+        <h2>Why We Built This Archive</h2>
+        <div class="divider"></div>
+        <p>
+          Mahaldheeb Scoutun is a Project Digital Archive initiative managed by the
+          <strong>14th Malé Rover Crew</strong>. Our mission is to document, preserve,
+          and share the rich heritage of Scouting in the Maldives — ensuring that
+          the stories, photographs, and milestones of those who came before us are
+          never lost to time.
+        </p>
+        <p style="margin-top: 1rem;">
+          This project is submitted as part of the <strong>Baden-Powell Award</strong> —
+          Scouting's highest honour for Rover Scouts.
+        </p>
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="/about" class="btn btn-primary">About the Team</a>
+          <a href="/contact" class="btn btn-outline">Get Involved</a>
+        </div>
+      </div>
+      <div class="about-preview__visual fade-in">
+        <div class="about-preview__emblem">⚜</div>
+        <p class="about-preview__crew">14th Malé Rover Crew</p>
+        <p class="about-preview__award">Baden-Powell Award Project</p>
+        <div class="about-preview__tags">
+          <span class="tag">Scout Association of Maldives</span>
+          <span class="tag">Heritage Archive</span>
+          <span class="tag">BP Award 2025</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SUBMIT / CONTRIBUTE BAND
+  ═══════════════════════════════════════════ -->
+  <section class="contribute-band">
+    <div class="container contribute-band__inner">
+      <div class="fade-in">
+        <h3>Have a story, photo, or document to share?</h3>
+        <p>Help us grow this archive. Submit your scouting memories and materials.</p>
+      </div>
+      <a href="/contact" class="btn btn-primary fade-in">Submit Materials</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-cream);
+  padding-block: var(--space-32) var(--space-24);
+}
+
+.hero__bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(125, 6, 5, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(180, 116, 100, 0.06) 0%, transparent 40%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 80px,
+      rgba(42, 38, 24, 0.015) 80px,
+      rgba(42, 38, 24, 0.015) 81px
+    );
+  pointer-events: none;
+}
+
+.hero__content {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  background-color: rgba(236, 226, 209, 0.6);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.hero__badge span:first-child {
+  font-size: 0.9rem;
+}
+
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--color-green);
+  letter-spacing: -0.02em;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--color-red);
+}
+
+.hero__tagline {
+  font-size: clamp(var(--text-md), 2vw, var(--text-xl));
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  max-width: 50ch;
+  margin-inline: auto;
+}
+
+.hero__br { display: block; }
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.hero__meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.hero__meta-number {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-red);
+  line-height: 1;
+}
+
+.hero__meta-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.hero__meta-divider {
+  width: 1px;
+  height: 40px;
+  background-color: var(--color-border);
+}
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--color-red), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ═══════════════════════════════════════════
+   INTRO BAND
+═══════════════════════════════════════════ */
+.intro-band {
+  background-color: var(--color-red);
+  padding-block: var(--space-8);
+}
+
+.intro-band__inner {
+  display: flex;
+  justify-content: center;
+}
+
+.intro-band__text {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-md), 2vw, var(--text-xl));
+  font-style: italic;
+  color: rgba(247, 242, 235, 0.92);
+  text-align: center;
+  max-width: 70ch;
+  line-height: 1.7;
+}
+
+.intro-band__text strong {
+  color: var(--color-cream-light);
+  font-style: normal;
+}
+
+/* ═══════════════════════════════════════════
+   HIGHLIGHTS
+═══════════════════════════════════════════ */
+.highlights {
+  background-color: var(--color-cream-light);
+}
+
+.highlights__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-2);
+}
+
+.highlight-card {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.highlight-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.highlight-card__img {
+  height: 200px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-4);
+}
+
+.highlight-card__img--history {
+  background: linear-gradient(135deg, #2A2618 0%, #4E4730 60%, #716849 100%);
+}
+
+.highlight-card__img--veterans {
+  background: linear-gradient(135deg, #430201 0%, #7D0605 60%, #BC0E0C 100%);
+}
+
+.highlight-card__img--archive {
+  background: linear-gradient(135deg, #3a2a20 0%, #B47464 60%, #CE9A8E 100%);
+}
+
+.highlight-card__year {
+  font-family: var(--font-serif);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: rgba(247, 242, 235, 0.15);
+  line-height: 1;
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.highlight-card__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.highlight-card__body h3 {
+  font-size: var(--text-xl);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.highlight-card__body p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   TIMELINE TEASER
+═══════════════════════════════════════════ */
+.timeline-teaser {
+  background-color: var(--color-cream);
+}
+
+.timeline {
+  position: relative;
+  margin-block: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 120px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--color-border) 10%, var(--color-border) 90%, transparent);
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--space-8);
+  align-items: flex-start;
+  padding-block: var(--space-6);
+  position: relative;
+}
+
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  left: 116px;
+  top: calc(var(--space-6) + 8px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-red);
+  border: 2px solid var(--color-cream);
+  box-shadow: 0 0 0 1px var(--color-red);
+}
+
+.timeline__year {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-red);
+  text-align: right;
+  padding-right: var(--space-8);
+  padding-top: var(--space-1);
+  line-height: 1;
+}
+
+.timeline__content {
+  padding-left: var(--space-8);
+}
+
+.timeline__content h4 {
+  font-size: var(--text-lg);
+  color: var(--color-green);
+  margin-bottom: var(--space-2);
+}
+
+.timeline__content p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  max-width: 55ch;
+}
+
+.timeline-teaser__cta {
+  margin-top: var(--space-8);
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION CARDS
+═══════════════════════════════════════════ */
+.nav-cards {
+  background-color: var(--color-cream-light);
+}
+
+.nav-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-2);
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-red);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+  transform-origin: left;
+}
+
+.nav-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-red);
+}
+
+.nav-card:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-card__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.nav-card h4 {
+  font-size: var(--text-lg);
+  color: var(--color-green);
+  line-height: 1.3;
+}
+
+.nav-card p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   ABOUT PREVIEW
+═══════════════════════════════════════════ */
+.about-preview {
+  background-color: var(--color-cream);
+}
+
+.about-preview__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.about-preview__text h2 {
+  margin-bottom: var(--space-2);
+}
+
+.about-preview__text p {
+  font-size: var(--text-md);
+  line-height: 1.8;
+  max-width: 55ch;
+}
+
+.about-preview__text strong {
+  color: var(--color-red);
+  font-weight: 600;
+}
+
+.about-preview__visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-12);
+  background-color: var(--color-green);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+}
+
+.about-preview__emblem {
+  font-size: 4rem;
+  color: var(--color-rose-light);
+  line-height: 1;
+}
+
+.about-preview__crew {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-cream);
+  max-width: none;
+}
+
+.about-preview__award {
+  font-size: var(--text-sm);
+  color: var(--color-cream-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  max-width: none;
+}
+
+.about-preview__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.tag {
+  padding: var(--space-1) var(--space-3);
+  background-color: rgba(236, 226, 209, 0.1);
+  border: 1px solid rgba(236, 226, 209, 0.2);
+  border-radius: 100px;
+  font-size: var(--text-xs);
+  color: var(--color-cream-dark);
+  letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════
+   CONTRIBUTE BAND
+═══════════════════════════════════════════ */
+.contribute-band {
+  background-color: var(--color-cream-light);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-16);
+}
+
+.contribute-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.contribute-band__inner h3 {
+  font-size: var(--text-2xl);
+  color: var(--color-green);
+  margin-bottom: var(--space-2);
+}
+
+.contribute-band__inner p {
+  font-size: var(--text-md);
+  color: var(--color-ink-muted);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .highlights__grid,
+  .nav-cards__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-preview__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__meta {
+    gap: var(--space-5);
+  }
+
+  .highlights__grid,
+  .nav-cards__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline::before {
+    left: 80px;
+  }
+
+  .timeline__item {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .timeline__item::before {
+    left: 76px;
+  }
+
+  .timeline__year {
+    font-size: var(--text-xl);
+  }
+
+  .contribute-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero__br { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__meta {
+    gap: var(--space-4);
+  }
+
+  .hero__meta-number {
+    font-size: var(--text-xl);
+  }
+}
+</style>
