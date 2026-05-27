@@ -31,19 +31,17 @@ const {
     <title>{title} — Mahaldheeb Scoutun</title>
   </head>
 
-  <body>
-    <!-- Premium Loading Screen -->
+  <body class="site-loading">
+    <!-- Clean Loading Screen -->
     <div id="site-loader" class="site-loader" aria-hidden="true">
       <div class="site-loader__pattern"></div>
 
       <div class="site-loader__inner">
-        <div class="site-loader__logo-card">
-          <img
-            src="/images/logo.png"
-            alt="Mahaldheeb Scoutun"
-            class="site-loader__logo"
-          />
-        </div>
+        <img
+          src="/images/logo.png"
+          alt="Mahaldheeb Scoutun"
+          class="site-loader__logo"
+        />
 
         <div class="site-loader__content">
           <span>Project Digital Archive</span>
@@ -55,53 +53,122 @@ const {
       </div>
     </div>
 
-    <Navbar />
+    <div class="page-shell">
+      <Navbar />
 
-    <main id="main-content">
-      <slot />
-    </main>
+      <main id="main-content">
+        <slot />
+      </main>
 
-    <Footer />
+      <Footer />
+    </div>
 
-    <!-- Loader + Scroll fade-in observer -->
+    <!-- Loader + Smooth Page Reveal + Scroll Animations -->
     <script is:inline>
       const loader = document.getElementById("site-loader");
+      const loaderStart = performance.now();
 
-      window.addEventListener("load", () => {
-        if (!loader) return;
+      const minimumLoaderTime = 1500;
+      const loaderFadeDuration = 650;
 
-        setTimeout(() => {
-          loader.classList.add("site-loader--hidden");
-        }, 520);
+      function initScrollAnimations() {
+        const fadeItems = document.querySelectorAll(".fade-in");
 
-        setTimeout(() => {
-          loader.remove();
-        }, 1150);
-      });
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.1,
-          rootMargin: "0px 0px -40px 0px",
+        if (!("IntersectionObserver" in window)) {
+          fadeItems.forEach((el) => el.classList.add("visible"));
+          return;
         }
-      );
 
-      document.querySelectorAll(".fade-in").forEach((el) => {
-        observer.observe(el);
-      });
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.12,
+            rootMargin: "0px 0px -45px 0px",
+          }
+        );
+
+        fadeItems.forEach((el) => {
+          observer.observe(el);
+        });
+      }
+
+      function revealSite() {
+        const elapsed = performance.now() - loaderStart;
+        const remainingTime = Math.max(minimumLoaderTime - elapsed, 0);
+
+        setTimeout(() => {
+          document.body.classList.remove("site-loading");
+          document.body.classList.add("site-ready");
+
+          if (loader) {
+            loader.classList.add("site-loader--hidden");
+
+            setTimeout(() => {
+              loader.remove();
+            }, loaderFadeDuration);
+          }
+
+          setTimeout(() => {
+            initScrollAnimations();
+          }, 120);
+        }, remainingTime);
+      }
+
+      if (document.readyState === "complete") {
+        revealSite();
+      } else {
+        window.addEventListener("load", revealSite);
+      }
     </script>
 
     <style is:global>
       /* ═══════════════════════════════════════════
-         PREMIUM PAGE LOADER
+         PAGE REVEAL — SIMPLE FADE ONLY
+      ═══════════════════════════════════════════ */
+      .page-shell {
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      body.site-ready .page-shell {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      body.site-loading {
+        overflow: hidden;
+      }
+
+      body.site-ready {
+        overflow-x: hidden;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.85s ease,
+          transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ═══════════════════════════════════════════
+         CLEAN PAGE LOADER — NO BLUR
       ═══════════════════════════════════════════ */
       .site-loader {
         position: fixed;
@@ -112,8 +179,8 @@ const {
         overflow: hidden;
         background: var(--color-cream);
         transition:
-          opacity 0.62s ease,
-          visibility 0.62s ease;
+          opacity 0.65s ease,
+          visibility 0.65s ease;
       }
 
       .site-loader--hidden {
@@ -126,20 +193,20 @@ const {
         position: absolute;
         inset: 0;
         pointer-events: none;
-        opacity: 0.55;
+        opacity: 0.45;
         background:
-          radial-gradient(circle at 50% 42%, rgba(125, 6, 5, 0.08), transparent 34%),
+          radial-gradient(circle at 50% 42%, rgba(125, 6, 5, 0.06), transparent 36%),
           linear-gradient(
             90deg,
             transparent,
             transparent 78px,
-            rgba(42, 38, 24, 0.025) 79px
+            rgba(42, 38, 24, 0.02) 79px
           ),
           linear-gradient(
             0deg,
             transparent,
             transparent 78px,
-            rgba(42, 38, 24, 0.018) 79px
+            rgba(42, 38, 24, 0.016) 79px
           );
         background-size: auto, 80px 80px, 80px 80px;
       }
@@ -147,41 +214,20 @@ const {
       .site-loader__inner {
         position: relative;
         z-index: 1;
+        width: min(520px, 90vw);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: var(--space-6);
-        width: min(520px, 90vw);
+        gap: var(--space-7);
         text-align: center;
         animation: loaderEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
 
-      .site-loader__logo-card {
-        position: relative;
-        display: grid;
-        place-items: center;
-        width: min(280px, 62vw);
-        aspect-ratio: 1 / 0.72;
-      }
-
-      .site-loader__logo-card::before {
-        content: "";
-        position: absolute;
-        width: 82%;
-        height: 58%;
-        border-radius: 999px;
-        background: rgba(125, 6, 5, 0.08);
-        filter: blur(36px);
-        animation: loaderGlow 1.9s ease-in-out infinite;
-      }
-
       .site-loader__logo {
-        position: relative;
-        width: min(250px, 56vw);
+        width: min(245px, 56vw);
         height: auto;
         display: block;
-        filter: drop-shadow(0 18px 26px rgba(67, 2, 1, 0.14));
         animation: loaderLogo 2.2s ease-in-out infinite;
       }
 
@@ -222,12 +268,12 @@ const {
       @keyframes loaderEnter {
         from {
           opacity: 0;
-          transform: translateY(10px) scale(0.98);
+          transform: translateY(12px);
         }
 
         to {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translateY(0);
         }
       }
 
@@ -235,23 +281,12 @@ const {
         0%,
         100% {
           transform: translateY(0) scale(1);
+          opacity: 1;
         }
 
         50% {
-          transform: translateY(-6px) scale(1.025);
-        }
-      }
-
-      @keyframes loaderGlow {
-        0%,
-        100% {
-          opacity: 0.5;
-          transform: scale(0.96);
-        }
-
-        50% {
-          opacity: 0.9;
-          transform: scale(1.08);
+          transform: translateY(-5px) scale(1.018);
+          opacity: 0.96;
         }
       }
 
@@ -271,16 +306,38 @@ const {
 
       @media (max-width: 600px) {
         .site-loader__inner {
-          gap: var(--space-5);
+          gap: var(--space-6);
         }
 
         .site-loader__logo {
-          width: min(220px, 62vw);
+          width: min(215px, 62vw);
         }
 
         .site-loader__content span {
           font-size: 0.68rem;
           letter-spacing: 0.14em;
+        }
+
+        .fade-in {
+          transform: translateY(18px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .page-shell,
+        .fade-in,
+        .site-loader,
+        .site-loader__inner,
+        .site-loader__logo,
+        .site-loader__progress i {
+          animation: none !important;
+          transition: none !important;
+        }
+
+        .page-shell,
+        .fade-in {
+          opacity: 1;
+          transform: none;
         }
       }
     </style>
