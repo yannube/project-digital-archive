@@ -265,11 +265,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="about-preview__visual fade-in">
-        <img
-          src="/images/rovers-logo-white.svg"
-          alt="Rovers of Thaajuddeen Logo"
-          class="about-preview__logo about-preview__logo--rovers"
-        />
+        <div class="about-preview__collab" aria-label="14th Malé Rover Crew × Project Digital Archive">
+          <img
+            src="/images/rovers-logo-white.svg"
+            alt="Rovers of Thaajuddeen Logo"
+            class="about-preview__collab-logo about-preview__collab-logo--rovers"
+          />
+
+          <span class="about-preview__collab-x">×</span>
+
+          <img
+            src="/images/logo-beige.svg"
+            alt="Project Digital Archive Logo"
+            class="about-preview__collab-logo about-preview__collab-logo--pda"
+          />
+        </div>
 
         <p class="about-preview__crew">14th Malé Rover Crew</p>
 
@@ -401,41 +411,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 .submit-visible {
   box-shadow: 0 10px 28px rgba(67, 2, 1, 0.12);
-}
-
-.hero__scroll-hint {
-  position: absolute;
-  bottom: var(--space-8);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
-}
-
-.hero__scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--color-red), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-@keyframes scrollPulse {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scaleY(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scaleY(1.2);
-  }
 }
 
 /* ═══════════════════════════════════════════
@@ -683,9 +658,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 }
 
 .nav-card h4 {
-  font-size: var(--text-lg);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 850;
   color: var(--color-green);
-  line-height: 1.3;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
 }
 
 .nav-card p {
@@ -751,19 +728,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-5);
   padding: var(--space-12);
-  background-color: var(--color-green);
+  background: var(--color-green);
   border-radius: var(--border-radius-md);
   text-align: center;
   box-shadow: var(--shadow-lg);
 }
 
-.about-preview__logo {
-  width: min(260px, 70%);
-  height: auto;
+.about-preview__collab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-bottom: var(--space-4);
+}
+
+.about-preview__collab-logo {
+  width: clamp(76px, 9vw, 105px);
+  height: clamp(76px, 9vw, 105px);
+  object-fit: contain;
   display: block;
-  margin-bottom: var(--space-2);
+}
+
+.about-preview__collab-logo--rovers {
+  filter: none;
+}
+
+.about-preview__collab-logo--pda {
+  filter: none;
+}
+
+.about-preview__collab-x {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 6vw, 5rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  opacity: 1;
+  transform: translateY(-2px);
+  text-shadow: none;
 }
 
 .about-preview__crew {
@@ -918,6 +923,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .about-preview__visual {
     padding: var(--space-8);
+  }
+
+  .about-preview__collab {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .about-preview__collab-x {
+    font-size: 3.8rem;
+    transform: none;
+  }
+
+  .about-preview__collab-logo {
+    width: 92px;
+    height: 92px;
   }
 }
 </style>

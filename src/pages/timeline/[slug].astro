@@ -1,0 +1,432 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { timelineEvents } from "../../data/timelineEvents";
+
+export function getStaticPaths() {
+  return timelineEvents.map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+
+const currentIndex = timelineEvents.findIndex((item) => item.slug === event.slug);
+const previousEvent = currentIndex > 0 ? timelineEvents[currentIndex - 1] : null;
+const nextEvent = currentIndex < timelineEvents.length - 1 ? timelineEvents[currentIndex + 1] : null;
+---
+
+<BaseLayout
+  title={event.title}
+  description={event.description}
+>
+  <section class="timeline-article-hero">
+    <div class="container timeline-article-hero__inner">
+      <a href="/timeline" class="timeline-back">← Back to Timeline</a>
+
+      <div class="timeline-article-hero__grid">
+        <div class="timeline-article-hero__text fade-in">
+          <span class="section-label">{event.category}</span>
+
+          <h1>{event.title}</h1>
+
+          <div class="timeline-article-meta">
+            <span>{event.year}</span>
+            <span>{event.date}</span>
+            {event.importance === "major" && <strong>Major Milestone</strong>}
+          </div>
+
+          <p>{event.description}</p>
+        </div>
+
+        <div class="timeline-article-image fade-in">
+          {event.image ? (
+            <img src={event.image} alt={event.imageAlt || event.title} />
+          ) : (
+            <div class="timeline-article-image__placeholder">
+              <span>{event.year}</span>
+              <p>Image to be added</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline-article-body">
+    <div class="container timeline-article-body__inner">
+      <article class="timeline-article-content fade-in">
+        <span class="section-label">Detailed Information</span>
+
+        <h2>About this milestone</h2>
+
+        <div class="divider"></div>
+
+        {event.details.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+
+        <div class="timeline-article-source-note">
+          <strong>Archive note:</strong>
+          More photographs, source details, document scans, and verified captions can be added to this article as the archive grows.
+        </div>
+      </article>
+
+      <aside class="timeline-article-sidebar fade-in">
+        <div class="timeline-sidebar-card">
+          <span class="section-label">Milestone</span>
+          <h3>{event.year}</h3>
+          <p>{event.title}</p>
+        </div>
+
+        <div class="timeline-sidebar-card">
+          <span class="section-label">Category</span>
+          <h3>{event.category}</h3>
+          <p>{event.date}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="timeline-article-navigation">
+    <div class="container timeline-article-navigation__inner">
+      {previousEvent && (
+        <a href={`/timeline/${previousEvent.slug}`} class="timeline-nav-link">
+          <span>Previous</span>
+          <strong>{previousEvent.title}</strong>
+        </a>
+      )}
+
+      {nextEvent && (
+        <a href={`/timeline/${nextEvent.slug}`} class="timeline-nav-link timeline-nav-link--next">
+          <span>Next</span>
+          <strong>{nextEvent.title}</strong>
+        </a>
+      )}
+    </div>
+  </section>
+
+  <style>
+    .timeline-article-hero {
+      background-color: var(--color-green);
+      padding-block: clamp(7rem, 11vw, 10rem) clamp(5rem, 8vw, 7rem);
+      color: var(--color-cream);
+    }
+
+    .timeline-article-hero__inner {
+      max-width: 1180px;
+    }
+
+    .timeline-back {
+      display: inline-block;
+      color: var(--color-cream-dark);
+      text-decoration: none;
+      font-size: var(--text-xs);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: clamp(3rem, 6vw, 4.5rem);
+      transition: color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .timeline-back:hover {
+      color: var(--color-cream);
+      transform: translateX(-4px);
+    }
+
+    .timeline-article-hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 500px);
+      gap: clamp(4rem, 8vw, 7rem);
+      align-items: center;
+    }
+
+    .timeline-article-hero .section-label {
+      color: var(--color-cream-dark);
+    }
+
+    .timeline-article-hero h1 {
+      color: var(--color-cream);
+      font-size: clamp(3rem, 6.8vw, 5.8rem);
+      line-height: 0.96;
+      max-width: 11ch;
+      margin: var(--space-5) 0 var(--space-6);
+    }
+
+    .timeline-article-hero__text p {
+      color: rgba(247, 242, 235, 0.8);
+      font-size: var(--text-md);
+      line-height: 1.9;
+      max-width: 62ch;
+    }
+
+    .timeline-article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-7);
+    }
+
+    .timeline-article-meta span,
+    .timeline-article-meta strong {
+      border: 1px solid rgba(247, 242, 235, 0.18);
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      color: var(--color-cream-dark);
+      font-size: var(--text-xs);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .timeline-article-meta strong {
+      background: var(--color-red);
+      color: var(--color-cream);
+      border-color: var(--color-red);
+    }
+
+    .timeline-article-image {
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 330px;
+      background: rgba(247, 242, 235, 0.08);
+      border: 1px solid rgba(247, 242, 235, 0.16);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .timeline-article-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 330px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .timeline-article-image__placeholder {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: var(--space-4);
+      text-align: center;
+      padding: var(--space-8);
+    }
+
+    .timeline-article-image__placeholder span {
+      font-family: var(--font-serif);
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: 900;
+      color: rgba(247, 242, 235, 0.18);
+      line-height: 1;
+    }
+
+    .timeline-article-image__placeholder p {
+      color: var(--color-cream-dark);
+      font-size: var(--text-xs);
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .timeline-article-body {
+      background-color: var(--color-cream);
+      padding-block: clamp(5.5rem, 9vw, 8rem);
+    }
+
+    .timeline-article-body__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: clamp(4rem, 8vw, 6.5rem);
+      align-items: start;
+      max-width: 1120px;
+    }
+
+    .timeline-article-content {
+      max-width: 760px;
+    }
+
+    .timeline-article-content .section-label {
+      display: block;
+      margin-bottom: var(--space-5);
+    }
+
+    .timeline-article-content h2 {
+      color: var(--color-green);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.08;
+      margin: 0 0 var(--space-5);
+    }
+
+    .timeline-article-content .divider {
+      margin-bottom: var(--space-8);
+    }
+
+    .timeline-article-content p {
+      color: var(--color-ink-muted);
+      font-size: var(--text-md);
+      line-height: 1.95;
+      margin-bottom: var(--space-6);
+      max-width: 70ch;
+    }
+
+    .timeline-article-source-note {
+      margin-top: var(--space-10);
+      padding: var(--space-6);
+      border-radius: 18px;
+      border: 1px solid rgba(125, 6, 5, 0.16);
+      background: rgba(125, 6, 5, 0.045);
+      color: var(--color-ink-muted);
+      line-height: 1.85;
+      max-width: 64ch;
+    }
+
+    .timeline-article-source-note strong {
+      color: var(--color-red);
+    }
+
+    .timeline-article-sidebar {
+      position: sticky;
+      top: 120px;
+      display: grid;
+      gap: var(--space-6);
+      padding-top: var(--space-2);
+    }
+
+    .timeline-sidebar-card {
+      background: var(--color-cream-light);
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-sidebar-card h3 {
+      color: var(--color-green);
+      font-size: var(--text-xl);
+      margin: var(--space-4) 0 var(--space-3);
+      line-height: 1.2;
+    }
+
+    .timeline-sidebar-card p {
+      color: var(--color-ink-muted);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+      max-width: none;
+    }
+
+    .timeline-article-navigation {
+      background: var(--color-cream-light);
+      border-top: 1px solid var(--color-border);
+      padding-block: var(--space-12);
+    }
+
+    .timeline-article-navigation__inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-5);
+      max-width: 760px;
+      margin-inline: auto;
+    }
+
+    .timeline-nav-link {
+      display: block;
+      text-decoration: none;
+      background: var(--color-cream);
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      padding: var(--space-6);
+      transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base),
+        border-color var(--transition-base);
+    }
+
+    .timeline-nav-link:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(125, 6, 5, 0.28);
+    }
+
+    .timeline-nav-link span {
+      display: block;
+      color: var(--color-red);
+      font-size: var(--text-xs);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+
+    .timeline-nav-link strong {
+      color: var(--color-green);
+      font-size: var(--text-md);
+      line-height: 1.35;
+    }
+
+    .timeline-nav-link--next {
+      text-align: right;
+    }
+
+    @media (max-width: 1000px) {
+      .timeline-article-hero__grid,
+      .timeline-article-body__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-article-hero__text {
+        max-width: 760px;
+      }
+
+      .timeline-article-hero h1 {
+        max-width: 14ch;
+      }
+
+      .timeline-article-image {
+        max-width: 620px;
+      }
+
+      .timeline-article-sidebar {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-top: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .timeline-article-hero {
+        padding-block: var(--space-20) var(--space-14);
+      }
+
+      .timeline-back {
+        margin-bottom: var(--space-8);
+      }
+
+      .timeline-article-hero__grid {
+        gap: var(--space-8);
+      }
+
+      .timeline-article-body {
+        padding-block: var(--space-12);
+      }
+
+      .timeline-article-image,
+      .timeline-article-image img,
+      .timeline-article-image__placeholder {
+        min-height: 250px;
+      }
+
+      .timeline-article-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-article-navigation__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-nav-link--next {
+        text-align: left;
+      }
+    }
+  </style>
+</BaseLayout>

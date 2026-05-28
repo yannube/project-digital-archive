@@ -1,289 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const timelineEvents = [
-  {
-    year: "1950s",
-    date: "1950s",
-    title: "Photographs Before Confirmed Records",
-    category: "Origins",
-    type: "origin",
-    importance: "normal",
-    description:
-      "Photographs from the 1950s show boys in Scout uniforms at national events in the Maldives. However, no confirmed records exist to prove organized Scouting activities during this earlier period.",
-  },
-  {
-    year: "1961",
-    date: "1961",
-    title: "Scouting Begins at Majeediyya School",
-    category: "Foundation",
-    type: "foundation",
-    importance: "major",
-    description:
-      "Scouting formally began at Majeediyya School in Malé under the leadership of Principal Mr. J.V. Hill. Mrs. P. George formed the first Cub Scout Pack with eighteen children.",
-  },
-  {
-    year: "1961",
-    date: "October 1961",
-    title: "Junior Scout Section Established",
-    category: "Foundation",
-    type: "foundation",
-    importance: "normal",
-    description:
-      "The Junior Scout section was established under the guidance of Mr. R.E. Abraham and Mr. Cyril, strengthening the early structure of Scouting at Majeediyya School.",
-  },
-  {
-    year: "1963",
-    date: "26 February 1963",
-    title: "First Cub Scout Investiture",
-    category: "Early Years",
-    type: "early",
-    importance: "normal",
-    description:
-      "The first Cub Scout Investiture was held, marking one of the earliest formal ceremonies in Maldivian Scouting history.",
-  },
-  {
-    year: "1963",
-    date: "18 June 1963",
-    title: "First Scout Investiture",
-    category: "Early Years",
-    type: "early",
-    importance: "normal",
-    description:
-      "The first Scout Investiture was conducted, further establishing Scouting as an organized youth movement in the Maldives.",
-  },
-  {
-    year: "1963",
-    date: "1963",
-    title: "First Malé Scout Group Registered in London",
-    category: "Recognition",
-    type: "recognition",
-    importance: "major",
-    description:
-      "Majeediyya School’s Scout Group was registered with the Imperial Scout Headquarters in London as the First Malé Scout Group, thanks to the efforts of Mr. C. Dymoke Green.",
-  },
-  {
-    year: "1964",
-    date: "1964",
-    title: "Sea Scouting Introduced",
-    category: "Expansion",
-    type: "expansion",
-    importance: "normal",
-    description:
-      "Sea Scouting was introduced, connecting the Scout movement with the maritime identity and island life of the Maldives.",
-  },
-  {
-    year: "1965",
-    date: "28 April – 1 May 1965",
-    title: "First Scout Camp at Hulhulé",
-    category: "Camping",
-    type: "early",
-    importance: "major",
-    description:
-      "The first recorded Scout camp in the Maldives was held at Hulhulé for four days, becoming a major practical milestone for the movement.",
-  },
-  {
-    year: "1966",
-    date: "23 September 1966",
-    title: "First Jamboree on the Air Participation",
-    category: "International",
-    type: "recognition",
-    importance: "normal",
-    description:
-      "The Maldives first participated in Jamboree on the Air, with a message broadcasted by Chief Scout Commissioner Hon. Ahmed Zaki.",
-  },
-  {
-    year: "1966",
-    date: "November 1966",
-    title: "Chip-a-Job Week Introduced",
-    category: "Service",
-    type: "service",
-    importance: "normal",
-    description:
-      "Chip-a-Job Week was introduced, helping foster a culture of service, responsibility, and community contribution among Scouts.",
-  },
-  {
-    year: "1968",
-    date: "1968",
-    title: "First Overseas Participation",
-    category: "International",
-    type: "recognition",
-    importance: "major",
-    description:
-      "A contingent of twelve Rovers represented the Maldives at the All-Ceylon Rover Moot in Panadura, Sri Lanka.",
-  },
-  {
-    year: "1968",
-    date: "1 January 1968",
-    title: "First Scout-Themed Postage Stamps",
-    category: "Recognition",
-    type: "recognition",
-    importance: "normal",
-    description:
-      "The first Scout-themed postage stamps were issued in the Maldives, with five more releases following by 1988.",
-  },
-  {
-    year: "1972–1979",
-    date: "1972 – 1979",
-    title: "Decline of Organized Scouting",
-    category: "Challenges",
-    type: "challenge",
-    importance: "major",
-    description:
-      "Scouting faced a significant decline due to a lack of trained leaders and institutional support. The movement remained mainly confined to Majeediyya School, though Cub Scouting continued.",
-  },
-  {
-    year: "1979",
-    date: "1979",
-    title: "Scouting Revived at Majeediyya School",
-    category: "Revival",
-    type: "revival",
-    importance: "major",
-    description:
-      "Scouting was revived at Majeediyya School, marking the beginning of a new phase of recovery and growth for the movement.",
-  },
-  {
-    year: "1983",
-    date: "June 1983",
-    title: "Leader Training Programme Begins",
-    category: "Training",
-    type: "revival",
-    importance: "major",
-    description:
-      "Three Scout Leaders began a Leader Training Programme aimed at expanding Scouting to other schools in Malé.",
-  },
-  {
-    year: "1983",
-    date: "26 August 1983",
-    title: "Malé English School Begins Scouting",
-    category: "Expansion",
-    type: "expansion",
-    importance: "normal",
-    description:
-      "Malé English School began Scouting, becoming one of the first schools to join the movement during its revival period.",
-  },
-  {
-    year: "1983",
-    date: "2 – 3 September 1983",
-    title: "Aaliya and Ahmadhiyya Begin Scouting",
-    category: "Expansion",
-    type: "expansion",
-    importance: "normal",
-    description:
-      "Madhrasathul Aaliya and Madhrasathul Ahmadhiyya followed by beginning Scouting, helping expand the movement across schools in Malé.",
-  },
-  {
-    year: "1984",
-    date: "28 January 1984",
-    title: "Maldives Boy Scouts Association Registered",
-    category: "Formation",
-    type: "formation",
-    importance: "major",
-    description:
-      "The Maldives Boy Scouts Association was officially registered under the Ministry of Home Affairs and Social Services, giving the movement formal national structure.",
-  },
-  {
-    year: "1985",
-    date: "22 February 1985",
-    title: "First National Founders Day Celebration",
-    category: "National Events",
-    type: "expansion",
-    importance: "normal",
-    description:
-      "The first National Founders Day Celebration was held, strengthening the national identity and unity of the Scout movement.",
-  },
-  {
-    year: "1985",
-    date: "23 August 1985",
-    title: "First Scout Leaders’ Meeting",
-    category: "Leadership",
-    type: "training",
-    importance: "normal",
-    description:
-      "The first Scout Leaders’ Meeting was held, contributing to leadership development and coordination within the movement.",
-  },
-  {
-    year: "1985",
-    date: "October 1985",
-    title: "First Combined Chip-a-Job Week",
-    category: "Service",
-    type: "service",
-    importance: "normal",
-    description:
-      "The first combined Chip-a-Job Week was held, encouraging Scouts to participate in community service and practical responsibility.",
-  },
-  {
-    year: "1985",
-    date: "27 November 1985",
-    title: "Service Scouting Begins",
-    category: "Service",
-    type: "service",
-    importance: "normal",
-    description:
-      "Service Scouting began at the National Youth Centre, expanding the movement’s role in youth service and national contribution.",
-  },
-  {
-    year: "1986",
-    date: "1986",
-    title: "Scouting Expands Outside Malé",
-    category: "Nationwide Expansion",
-    type: "expansion",
-    importance: "major",
-    description:
-      "Scouting officially expanded to islands outside Malé, helping transform the movement into a truly nationwide youth movement.",
-  },
-  {
-    year: "1986",
-    date: "20 – 23 September 1986",
-    title: "First National Scout Jamboree",
-    category: "Landmark Event",
-    type: "jamboree",
-    importance: "major",
-    description:
-      "The First National Scout Jamboree was held at Kuda Bandos, attended by around 300 Scouts, 250 Cub Scouts, and 300 Brownies and Girl Guides.",
-  },
-  {
-    year: "1988",
-    date: "23 June 1988",
-    title: "First Inter-School Scout Competition",
-    category: "Competition",
-    type: "progress",
-    importance: "normal",
-    description:
-      "The first Inter-School Scout Competition was held, encouraging skill development, teamwork, and healthy competition among Scout groups.",
-  },
-  {
-    year: "1988",
-    date: "14 August 1988",
-    title: "President Scout Award Interviews Begin",
-    category: "Awards",
-    type: "progress",
-    importance: "normal",
-    description:
-      "Interviews for the President Scout Award began, marking a major step in recognizing outstanding achievement among Scouts.",
-  },
-  {
-    year: "1988",
-    date: "20 – 27 August 1988",
-    title: "First Advanced Unit Leader Training Course",
-    category: "Training",
-    type: "training",
-    importance: "major",
-    description:
-      "The first Advanced Unit Leader Training Course was held at Kuda Bandos, conducted by the Asia-Pacific Region Training Team and led by Mr. J.P. Silvestre.",
-  },
-];
-
-const filters = [
-  { label: "All", value: "all" },
-  { label: "Origins", value: "origin" },
-  { label: "Foundation", value: "foundation" },
-  { label: "Recognition", value: "recognition" },
-  { label: "Revival", value: "revival" },
-  { label: "Expansion", value: "expansion" },
-  { label: "Service", value: "service" },
-  { label: "Training", value: "training" },
-];
+import { timelineEvents, timelineFilters } from "../data/timelineEvents";
 
 const majorCount = timelineEvents.filter((event) => event.importance === "major").length;
 ---
@@ -299,8 +16,8 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
       <h1>Timeline of<br />Maldivian Scouting</h1>
 
       <p>
-        Explore the key dates, milestones, and turning points that shaped the
-        Scout movement in the Maldives.
+        Explore the key dates, milestones, images, and turning points that shaped
+        the Scout movement in the Maldives.
       </p>
     </div>
   </section>
@@ -315,7 +32,7 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
         <p>
           This timeline highlights the major events that transformed Scouting in
           the Maldives from early school-based beginnings into a nationwide youth
-          movement.
+          movement. Each milestone opens into a separate article-style page.
         </p>
       </div>
 
@@ -347,7 +64,7 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
         </div>
 
         <div class="timeline-filters" aria-label="Timeline filters">
-          {filters.map((filter) => (
+          {timelineFilters.map((filter) => (
             <button
               class={`timeline-filter ${filter.value === "all" ? "is-active" : ""}`}
               type="button"
@@ -364,11 +81,10 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
       </div>
 
       <div class="timeline-list" id="timeline-list">
-        {timelineEvents.map((event, index) => (
+        {timelineEvents.map((event) => (
           <article
             class={`timeline-card fade-in ${event.importance === "major" ? "timeline-card--major" : ""}`}
             data-type={event.type}
-            data-index={index}
           >
             <div class="timeline-card__year">
               <span>{event.year}</span>
@@ -378,22 +94,38 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
               <span></span>
             </div>
 
-            <div class="timeline-card__content">
-              <div class="timeline-card__top">
-                <span class="timeline-card__date">{event.date}</span>
-                <span class="timeline-card__tag">{event.category}</span>
+            <a href={`/timeline/${event.slug}`} class="timeline-card__content">
+              <div class="timeline-card__media">
+                {event.image ? (
+                  <img src={event.image} alt={event.imageAlt || event.title} loading="lazy" />
+                ) : (
+                  <div class="timeline-card__placeholder">
+                    <span>{event.year}</span>
+                  </div>
+                )}
               </div>
 
-              <h3>{event.title}</h3>
+              <div class="timeline-card__body">
+                <div class="timeline-card__top">
+                  <span class="timeline-card__date">{event.date}</span>
+                  <span class="timeline-card__tag">{event.category}</span>
+                </div>
 
-              <p>{event.description}</p>
+                <h3>{event.title}</h3>
 
-              {event.importance === "major" && (
-                <strong class="timeline-card__major-label">
-                  Major Milestone
-                </strong>
-              )}
-            </div>
+                <p>{event.description}</p>
+
+                <div class="timeline-card__footer">
+                  {event.importance === "major" && (
+                    <strong class="timeline-card__major-label">
+                      Major Milestone
+                    </strong>
+                  )}
+
+                  <span class="timeline-card__open">Read Article →</span>
+                </div>
+              </div>
+            </a>
           </article>
         ))}
       </div>
@@ -419,7 +151,7 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
     </div>
   </section>
 
-  <script is:inline>
+  <script>
     const filterButtons = document.querySelectorAll(".timeline-filter");
     const timelineCards = document.querySelectorAll(".timeline-card");
     const progressBar = document.getElementById("timeline-progress-bar");
@@ -755,11 +487,12 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
         var(--color-cream-light);
       border: 1px solid rgba(42, 38, 24, 0.13);
       border-radius: 18px;
-      padding: var(--space-6);
       box-shadow:
         0 18px 42px rgba(42, 38, 24, 0.055),
         0 1px 0 rgba(255, 255, 255, 0.45) inset;
       overflow: hidden;
+      text-decoration: none;
+      display: block;
       transition:
         transform var(--transition-base),
         box-shadow var(--transition-base),
@@ -784,22 +517,51 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
 
     .timeline-card--major .timeline-card__content {
       border-color: rgba(125, 6, 5, 0.3);
-      background:
-        linear-gradient(
-          135deg,
-          rgba(125, 6, 5, 0.08),
-          transparent 42%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.42),
-          rgba(255, 255, 255, 0.12)
-        ),
-        var(--color-cream-light);
     }
 
     .timeline-card--major .timeline-card__content::before {
       border-top-color: var(--color-red);
+    }
+
+    .timeline-card__media {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--color-green);
+      overflow: hidden;
+    }
+
+    .timeline-card__media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform var(--transition-base);
+    }
+
+    .timeline-card__content:hover .timeline-card__media img {
+      transform: scale(1.04);
+    }
+
+    .timeline-card__placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(247, 242, 235, 0.08), transparent 40%),
+        var(--color-green);
+    }
+
+    .timeline-card__placeholder span {
+      font-family: var(--font-serif);
+      color: rgba(247, 242, 235, 0.24);
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .timeline-card__body {
+      padding: var(--space-6);
     }
 
     .timeline-card__top {
@@ -850,11 +612,23 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
       overflow-wrap: break-word;
     }
 
+    .timeline-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .timeline-card:nth-child(even) .timeline-card__footer {
+      flex-direction: row-reverse;
+    }
+
     .timeline-card__major-label {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      margin-top: var(--space-5);
       color: var(--color-red);
       font-size: 0.65rem;
       font-weight: 900;
@@ -868,6 +642,15 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
       height: 7px;
       border-radius: 50%;
       background: var(--color-red);
+    }
+
+    .timeline-card__open {
+      color: var(--color-green);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.75;
     }
 
     .timeline-history-cta {
@@ -965,7 +748,8 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
         text-align: left;
       }
 
-      .timeline-card:nth-child(even) .timeline-card__top {
+      .timeline-card:nth-child(even) .timeline-card__top,
+      .timeline-card:nth-child(even) .timeline-card__footer {
         flex-direction: row;
       }
     }
@@ -985,9 +769,8 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
         text-align: left;
       }
 
-      .timeline-card__content {
+      .timeline-card__body {
         padding: var(--space-5);
-        border-radius: 16px;
       }
 
       .timeline-card__top {
@@ -997,6 +780,12 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
 
       .timeline-card:nth-child(even) .timeline-card__top {
         flex-direction: column;
+      }
+
+      .timeline-card__footer,
+      .timeline-card:nth-child(even) .timeline-card__footer {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .timeline-history-cta__inner {
