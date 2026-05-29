@@ -25,6 +25,7 @@ const footerLinks = [
     links: [
       { label: "About Us", href: "/about" },
       { label: "Contact Us", href: "/contact" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
     ],
   },
 ];
@@ -72,10 +73,6 @@ const footerLinks = [
       </p>
 
       <div class="footer__bottom-actions">
-        <button class="footer__privacy-button" type="button" data-privacy-open>
-          Privacy Policy
-        </button>
-
         <p class="footer__bp">
           Endorsed by The Scout Association of Maldives
         </p>
@@ -83,124 +80,6 @@ const footerLinks = [
     </div>
   </div>
 </footer>
-
-<div class="privacy-modal" id="privacy-modal" aria-hidden="true">
-  <div class="privacy-modal__overlay" data-privacy-close></div>
-
-  <div
-    class="privacy-modal__panel"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="privacy-modal-title"
-  >
-    <button
-      class="privacy-modal__close"
-      type="button"
-      aria-label="Close privacy policy"
-      data-privacy-close
-    >
-      ×
-    </button>
-
-    <span class="section-label">Privacy Policy</span>
-
-    <h2 id="privacy-modal-title">Mahaldheeb Scoutun Privacy Policy</h2>
-
-    <div class="privacy-modal__content">
-      <p>
-        Mahaldheeb Scoutun Project Digital Archive collects contribution details
-        only for archive review, verification, communication, and preservation
-        purposes.
-      </p>
-
-      <h3>Information we may collect</h3>
-
-      <p>
-        When you submit materials, we may collect your name, email address,
-        contact number, island or atoll, Scout group or organisation, contribution
-        type, description, and any files or historical information you choose to
-        provide.
-      </p>
-
-      <h3>How submissions are used</h3>
-
-      <p>
-        Submitted materials may be reviewed by archive administrators before being
-        accepted, edited for clarity, verified, stored, or published on the website
-        as part of the digital archive.
-      </p>
-
-      <h3>Ownership and permission</h3>
-
-      <p>
-        Contributors are responsible for ensuring that they own or have permission
-        to share the materials they submit. By submitting materials, contributors
-        confirm that the archive may review and preserve them for historical and
-        educational purposes.
-      </p>
-
-      <h3>Personal information</h3>
-
-      <p>
-        Personal contact details are used for communication and verification.
-        Contact information will not be publicly displayed unless permission is
-        clearly given or the information is already part of a public historical
-        record.
-      </p>
-
-      <h3>Review and removal</h3>
-
-      <p>
-        Archive administrators may refuse, edit, or remove materials if they are
-        inaccurate, inappropriate, unverifiable, or submitted without proper
-        permission. Contributors may contact the archive to request corrections or
-        removal of submitted materials.
-      </p>
-
-      <h3>Future updates</h3>
-
-      <p>
-        This policy may be updated as the archive grows, especially when file
-        uploads, Sanity CMS submissions, or other contribution systems are fully
-        connected.
-      </p>
-    </div>
-  </div>
-</div>
-
-<script>
-  const privacyModal = document.getElementById("privacy-modal");
-  const privacyOpenButtons = document.querySelectorAll("[data-privacy-open]");
-  const privacyCloseButtons = document.querySelectorAll("[data-privacy-close]");
-
-  function openPrivacyModal() {
-    if (!privacyModal) return;
-    privacyModal.classList.add("is-open");
-    privacyModal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("privacy-modal-open");
-  }
-
-  function closePrivacyModal() {
-    if (!privacyModal) return;
-    privacyModal.classList.remove("is-open");
-    privacyModal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("privacy-modal-open");
-  }
-
-  privacyOpenButtons.forEach((button) => {
-    button.addEventListener("click", openPrivacyModal);
-  });
-
-  privacyCloseButtons.forEach((button) => {
-    button.addEventListener("click", closePrivacyModal);
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closePrivacyModal();
-    }
-  });
-</script>
 
 <style>
   .footer {
@@ -283,7 +162,9 @@ const footerLinks = [
     font-size: var(--text-sm);
     color: var(--color-cream-dark);
     text-decoration: none;
-    transition: color var(--transition-fast), padding-left var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      padding-left var(--transition-fast);
     display: inline-block;
   }
 
@@ -321,108 +202,11 @@ const footerLinks = [
     flex-wrap: wrap;
   }
 
-  .footer__privacy-button {
-    border: 0;
-    background: transparent;
-    color: var(--color-cream-dark);
-    font: inherit;
-    font-size: var(--text-xs);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 0;
-    transition: color var(--transition-fast);
-  }
-
-  .footer__privacy-button:hover {
-    color: var(--color-cream);
-  }
-
   .footer__bp {
     font-size: var(--text-xs);
     color: var(--color-rose);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    max-width: none;
-  }
-
-  body.privacy-modal-open {
-    overflow: hidden;
-  }
-
-  .privacy-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
-    padding: clamp(1rem, 3vw, 2rem);
-  }
-
-  .privacy-modal.is-open {
-    display: grid;
-    place-items: center;
-  }
-
-  .privacy-modal__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 18, 10, 0.72);
-  }
-
-  .privacy-modal__panel {
-    position: relative;
-    z-index: 1;
-    width: min(760px, 100%);
-    max-height: 86vh;
-    overflow-y: auto;
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: 24px;
-    padding: clamp(2rem, 5vw, 3.25rem);
-    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.35);
-  }
-
-  .privacy-modal__close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 42px;
-    height: 42px;
-    border-radius: 999px;
-    border: 1px solid var(--color-border);
-    background: var(--color-green);
-    color: var(--color-cream);
-    font-size: 1.8rem;
-    line-height: 1;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-  }
-
-  .privacy-modal h2 {
-    color: var(--color-green);
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    line-height: 1.08;
-    margin: var(--space-4) 0 var(--space-8);
-    max-width: 12ch;
-  }
-
-  .privacy-modal__content {
-    display: grid;
-    gap: var(--space-5);
-  }
-
-  .privacy-modal__content h3 {
-    color: var(--color-green);
-    font-size: var(--text-md);
-    margin-top: var(--space-2);
-  }
-
-  .privacy-modal__content p {
-    color: var(--color-ink-muted);
-    font-size: var(--text-sm);
-    line-height: 1.85;
     max-width: none;
   }
 
