@@ -156,25 +156,27 @@ const majorCount = timelineEvents.filter((event) => event.importance === "major"
     const timelineCards = document.querySelectorAll(".timeline-card");
     const progressBar = document.getElementById("timeline-progress-bar");
 
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const selectedFilter = button.dataset.filter;
+   filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filterButton = button as HTMLButtonElement;
+    const selectedFilter = filterButton.dataset.filter;
 
-        filterButtons.forEach((btn) => btn.classList.remove("is-active"));
-        button.classList.add("is-active");
+    filterButtons.forEach((btn) => btn.classList.remove("is-active"));
+    filterButton.classList.add("is-active");
 
-        timelineCards.forEach((card) => {
-          const cardType = card.dataset.type;
-          const shouldShow = selectedFilter === "all" || cardType === selectedFilter;
+    timelineCards.forEach((card) => {
+      const timelineCard = card as HTMLElement;
+      const cardType = timelineCard.dataset.type;
+      const shouldShow = selectedFilter === "all" || cardType === selectedFilter;
 
-          card.classList.toggle("is-hidden", !shouldShow);
+          timelineCard.classList.toggle("is-hidden", !shouldShow);
 
-          if (shouldShow) {
-            card.classList.remove("visible");
-            setTimeout(() => {
-              card.classList.add("visible");
-            }, 80);
-          }
+if (shouldShow) {
+  timelineCard.classList.remove("visible");
+  setTimeout(() => {
+    timelineCard.classList.add("visible");
+  }, 80);
+}
         });
 
         setTimeout(updateTimelineProgress, 250);
